@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% comment %} <link rel="stylesheet" href="style.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+</head>
+<body>
+    <section class="d-flex flex-column justify-content-between m-0 p-0" style="min-height: 100vh;">
+        <div class = 'header'>
+            {% block header %}
+                {% include "header.html" %}
+            {% endblock  %}
+        </div>
+        <div class="main_block mx-auto">
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <div>
+            {% block footer %}
+                {% include "footer.html" %}
+            {% endblock  %}
+        </div>
+    </section>
+</body>
+</html>
