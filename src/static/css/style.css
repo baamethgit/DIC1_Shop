@@ -5,6 +5,32 @@
   width: 80%;
 }
 
+.head {
+  background-color: #1b6392;
+}
+
+.header {
+  color: white;
+  width: 85%;
+  margin: auto;
+  padding-left: auto;
+  padding-right: auto;
+}
+.header * {
+  color: white;
+}
+.header select {
+  color: white !important;
+  background-color: #1b6392 !important;
+  border: none !important;
+  border: 1px solid red !important;
+}
+.header i {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .footer {
   padding-top: 40px;
   background-color: #191c1f;

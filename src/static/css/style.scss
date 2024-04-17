@@ -10,6 +10,31 @@ $footerTextColor : #ADB7BC;
     flex-grow: 1;
     width: 80%;
 }
+.head{
+    background-color: $headerMainColor;
+}
+//HEADER
+.header{
+    color:white;
+    width: 85%;
+    margin: auto;
+    padding-left: auto;
+    padding-right: auto;
+    & *{
+        color:white;
+    }
+    select{
+        color:white !important;
+        background-color: #1b6392 !important;
+        border: none !important;
+        border: 1px solid red !important;
+    }
+    i{
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
 // FOOTER
 .footer{
     padding-top: 40px;
@@ -20,7 +45,6 @@ $footerTextColor : #ADB7BC;
         background-color: gray;
     }
     .row{
-        
         margin-bottom: 20px;
         flex-wrap: wrap;
         margin-left: auto;
@@ -86,3 +110,4 @@ ul{
         }
     }
 }
+
