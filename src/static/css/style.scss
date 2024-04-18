@@ -2,6 +2,7 @@ $footerMainColor : #191c1f;
 $headerMainColor : #1b6392;
 $thirdColor : rgba(250,130,50,255);
 $footerTextColor : #ADB7BC;
+$form-select-color : red;
 
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital@0;1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;1,100&display=swap');
@@ -22,17 +23,67 @@ $footerTextColor : #ADB7BC;
     padding-right: auto;
     & *{
         color:white;
+        box-sizing: border-box;
     }
     select{
-        color:white !important;
-        background-color: #1b6392 !important;
-        border: none !important;
-        border: 1px solid red !important;
+        font-size: 14px;
+        border:none !important;
+        & *{
+            color:red !important;
+        }
+        background-color: transparent;
+    }
+    .search_bar{
+        background-color: white;
+        border-radius: 2px;
+        width:40%;
+        input{
+            border: none !important;
+            width: 100%;
+            color:black;
+            font-size: 13px;
+            &:focus, &:active {
+                outline: none;
+                border: none; 
+            }
+            &::placeholder {
+                font-size: 11px; 
+            }
+
+            
+        }
+        #search-addon{
+            i{
+            color:black;
+            cursor: pointer;
+            }
+        }
     }
     i{
         display: inline-block;
         margin-left: 5px;
         margin-right: 5px;
+    }
+    .cart{
+        p{
+        position: absolute;
+        background-color: white;
+        left: 18px;
+        top: -4px;
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        .nb_article{
+            text-align: center;
+            color:$headerMainColor;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        }
+        
     }
 }
 // FOOTER

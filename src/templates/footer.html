@@ -39,8 +39,9 @@
         <div class="col-6 col-lg-2 telechargement">
             <p class="footer_title" style="text-transform: uppercase;">Télécharger l'application</p>
             <ul>
-                <li style="background-color : #303639;" class="p-2 mb-2 d-flex"><img src="{% static 'images/logo_apple.png' %}" alt=""><span style='white-space:wrap;'>Obtenez le maintenant par <b>Google</b></span></li>
-                <li style="background-color : #303639;" class="p-2 d-flex"><img src="{% static 'images/play_store_logo.png' %}" alt=""><span>Obtenez le maintenant <b>Magasin d'applications</b></span></li>
+                {% comment %} <li style="background-color : #303639;" class="p-2 mb-2 d-flex"><img src="{% static 'images/logo_apple.png' %}" alt=""><span style='white-space:wrap;'>Obtenez le maintenant par <b>Google</b></span></li> {% endcomment %}
+                <li style="background-color : #303639;" class="p-2 mb-2 d-flex align-items-center"><i class="bi bi-google-play d-inline-block me-2" style='font-size:23px'></i><span style='white-space:wrap;'>Obtenez le maintenant par <b>Google</b></span></li>
+                <li style="background-color : #303639;" class="p-2 d-flex align-items-center"><i class="bi bi-apple d-inline-block m-2" style='font-size:23px'></i><span style='white-space: normal;overflow: hidden;text-overflow: ellipsis;'>Obtenez le maintenant <b>Magasin d'applications</b></span></li>
             </ul>
         </div>
         <div class="col-12 col-md-6 col-lg-4 populaire">
