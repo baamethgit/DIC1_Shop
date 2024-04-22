@@ -1,0 +1,215 @@
+{% load static %}
+{% extends "base.html" %}
+{% block content %}
+      <div class="wrapper my-5 mx-auto px-5 py-3">
+         <div class="form-container">
+            <div class="slide-controls">
+               <input type="radio" name="slide" id="login" checked>
+               <input type="radio" name="slide" id="signup">
+               <label for="login" class="slide login">Connexion</label>
+               <label for="signup" class="slide signup">Une inscription</label>
+               <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+               <form action="#" class="login">
+                  {% comment %} <div class="field">
+                    <label for ''>prenom </label><br>
+                     <input type="email" required>
+                  </div>
+                  <div class="field">
+                     <input type="password" placeholder="Password" required>
+                  </div>
+                  <div class="pass-link">
+                     <a href="#">Forgot password?</a>
+                  </div>
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Login">
+                  </div>
+                  <div class="signup-link">
+                     Not a member? <a href="">Signup now</a>
+                  </div> {% endcomment %}
+                  {% csrf_token %}
+                  {{login_form.as_p}}
+                  <span class="submit_btn">
+                    <input type="submit" value="Connexion" class='py-2 fw-bold '>
+                    <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
+                  </span>
+               </form>
+               <form action="#" class="signup">
+                  <div class="field">
+                    <label>prenom </label><br>
+                     <input type="text"required>
+                  </div>
+                  <div class="field">
+                    <label>nom </label><br>
+                     <input type="text"required>
+                  </div>
+                  <div class="field">
+                    <label>date de naissance : </label><br>
+                     <input type="password" placeholder = "JJ/MM/AA" required>
+                  </div>
+                  <div class="field">
+                    <label>Courriel : <i class="bi bi-eye"></i></label><br>
+                    <input type="password" required>
+                  </div>
+                  {% csrf_token %}
+                  {{ signin_form.as_p }}
+                  <br>
+                  <span class="submit_btn">
+                    <input type="submit" value="Suivant" class='py-2 fw-bold '>
+                    <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
+                  </span>
+               </form>
+            </div>
+         </div>
+      </div>
+      <script>
+         const loginText = document.querySelector(".title-text .login");
+         const loginForm = document.querySelector("form.login");
+         const loginBtn = document.querySelector("label.login");
+         const signupBtn = document.querySelector("label.signup");
+         const signupLink = document.querySelector("form .signup-link a");
+         signupBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "-50%";
+           loginText.style.marginLeft = "-50%";
+         });
+         loginBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "0%";
+           loginText.style.marginLeft = "0%";
+         });
+         signupLink.onclick = (()=>{
+           signupBtn.click();
+           return false;
+         });
+      </script>
+<style>
+    {% comment %} @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap'); {% endcomment %}
+
+
+    {% comment %} .submit_btn{
+      display:inline-block;
+      color:white;
+      background-color: #FA8232;
+      width : 100%;
+      text-align:center;
+      border:none;
+      outline : none;
+    }
+    .submit_btn input{
+      background-color:transparent;
+      border:none;
+      outline : none;
+      color:white;
+    } {% endcomment %}
+  ::selection{
+    {% comment %} background: #fa4299; {% endcomment %}
+    color: #fff;
+  }
+  .wrapper{
+    {% comment %} overflow: hidden; {% endcomment %}
+    max-width: 390px;
+    background: #fff;
+    box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  }
+  .wrapper .title-text{
+    display: flex;
+    width: 200%;
+  }
+  .wrapper .slide-controls{
+    position: relative;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+    margin: 30px 0 10px 0;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgrey;
+  }
+  .slide-controls .slide{
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 48px;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .slide-controls label.signup{
+    color: #000;
+  }
+  .slide-controls .slider-tab{
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    z-index: 0;
+    border-bottom : 2px solid #FA8232;
+  }
+  input[type="radio"]{
+    display: none;
+  }
+  #signup:checked ~ .slider-tab{
+    left: 50%;
+  }
+  #signup:checked ~ label.signup{
+    color: black;
+    cursor: default;
+    user-select: none;
+  }
+  #signup:checked ~ label.login{
+    color: gray;
+  }
+  #login:checked ~ label.signup{
+    color: gray;
+  }
+  #login:checked ~ label.login{
+    cursor: default;
+    user-select: none;
+    color: black;
+  }
+  .wrapper .form-container{
+    width: 100%;
+    overflow: hidden;
+  }
+  .form-container .form-inner{
+    display: flex;
+    width: 200%;
+  }
+  .form-container .form-inner form{
+    width: 50%;
+    transition: all 0.6s;
+  }
+  .form-inner form .field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .form-inner form .field input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+  }
+
+
+  .form-inner form .pass-link{
+    margin-top: 5px;
+  }
+  .form-inner form .signup-link{
+    text-align: center;
+    margin-top: 30px;
+  }
+  .form-inner form .pass-link a,
+  .form-inner form .signup-link a{
+    color: #fa4299;
+    text-decoration: none;
+  }
+  .form-inner form .pass-link a:hover,
+  .form-inner form .signup-link a:hover{
+    text-decoration: underline;
+  }
+</style>
+{% endblock content %}

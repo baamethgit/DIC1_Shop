@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block page %} > <<span class='text-primary'>panier</span>>{% endblock  %}
+
+{% block content %}
+    <div class = 'container panier'>
+        <div class = 'row my-5 d-flex justify-content-between'>
+            <div class='col-12 mb-3 mb-md-0 col-lg-8 border p-0 border-1 m-0 rounded-1 rounded'>
+                <b class="d-block ps-4 titre">panier</b>
+                <form action=""></form>
+                <table class="w-100">
+                    <thead class="w-100">
+                        <tr class="w-100">
+                            <th class="ps-4">PRODUITS</th>
+                            <th>PRIX</th>
+                            <th>QUANTITE</th>
+                            <th class="pe-4">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <div class="tbody w-100">
+                            <tr class="w-100">
+                                <td class="ps-4">
+                                    <img src="product_image" alt="" style="width: 40px;height:40px" class="">
+                                    <p class="d-inline-block">Nom du produit et un peu de description</p>
+                                </td>
+                                <td>180$</td>
+                                <td>
+                                    <div class="border border-1 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:85%">
+                                        <i class="bi bi-plus" style="cursor: pointer;"></i>
+                                        <input type="text" min="01" value='02' class="border-0 " style="width: 20px;height:10px">
+                                        <i class="bi bi-dash" style="cursor: pointer;"></i>
+                                    </div>
+                                </td>
+                                <td class="pe-4">180$</td>
+                            </tr>
+                    </div>
+                </table>
+                <hr class="w-100">
+                <div class="btns d-flex justify-content-between px-4">
+                    <span class="submit_panier px-3">
+                        <i class="bi bi-arrow-left" style='cursor:pointer;'></i>
+                        <input type="submit" value="MAISON" class='py-2'>
+                    </span>
+                    <span class="submit_panier px-3">
+                        <input type="submit" value="VALIDER" class='py-2 fw-bold '>
+                    </span>
+                </div>
+            </form>
+            </div>
+            <div class='col-12 col-lg-4 ps-4 m-0'>
+                <div class = 'border rounded-1 rounded border-1 p-3'>
+                    <b class="d-block titre">Totaux</b>
+                    <p class="d-flex justify-content-between">
+                        <span style="color:#5F6C72">total</span>
+                        <span style="color:#191C1F">320$</span>
+                    </p>
+                    <p class="d-flex justify-content-between">
+                        <span style="color:#5F6C72">frais</span>
+                        <span class="" style="color:#191C1F">320$</span>
+                    </p>
+                    <p class="d-flex justify-content-between">
+                        <span style="color:#5F6C72">total</span>
+                        <span class="" style="color:#191C1F">320$</span>
+                    </p>
+                    <hr>
+                    <p class="d-flex justify-content-between">
+                        <span style="color:#191C1F">Total</span>
+                        <span class="fw-bold" style="color:#191C1F">320$</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

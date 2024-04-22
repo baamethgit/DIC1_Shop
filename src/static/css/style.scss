@@ -10,8 +10,14 @@ $form-select-color : red;
 .main_block{
     flex-grow: 1;
     width: 80%;
+    *  {
+        box-sizing: border-box;
+    }
 }
 .head{
+    position: sticky;
+    top:0;
+    z-index: 200;
     background-color: $headerMainColor;
 }
 //HEADER
@@ -162,3 +168,90 @@ ul{
     }
 }
 
+.panier{
+    background-color: transparent;
+    .row{
+        & > div:first-child{
+            // background-color: green;
+        }
+        div:last-child{
+            
+            // background-color: rgb(128, 128, 134);
+        }
+        .titre{
+            font-family: Public Sans;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 24px;
+            text-align: left;
+            margin-bottom: 14px;
+            margin-top: 10px;
+        }
+    }
+    thead{
+        
+        tr{
+            background-color: #E4E7E9;
+            padding-left: 10px;
+            th{
+                font-family: Public Sans;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 18px;
+                text-align: left;
+                padding: 5px;
+            }
+        }
+    }
+    td{
+        padding-top: 20px;
+    }
+}
+
+
+.submit_panier{
+    display:inline-block;
+    color: #2DA5F3;
+    text-align:center;
+    outline : none;
+    border: 2px solid #2DA5F3;
+  }
+  .submit_panier input{
+    background-color:transparent;
+    border:none;
+    outline : none;
+    color: #2DA5F3;
+    font-family: Public Sans;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.012em;
+    text-align: left;
+  }
+
+
+
+
+  // Signin
+  .submit_btn{
+    display:inline-block;
+    color:white;
+    background-color: #FA8232;
+    width : 100%;
+    text-align:center;
+    border:none;
+    outline : none;
+  }
+  .submit_btn input{
+    background-color:transparent;
+    border:none;
+    outline : none;
+    color:white;
+  }
+
+  //
+
+.prod_detail_image{
+    max-width: 100%;
+    height: 100%;
+    margin: auto;
+}
