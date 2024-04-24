@@ -27,9 +27,11 @@
 <div class="hr mt-1 mb-2" style="height: 1px;width:100vw;background-color:gray"></div>
 <section class='header px-5'>
     <div class='d-flex align-items-center justify-content-between'>
-        <li class="d-flex align-items-center align-items-center" href = "{% url "home-view" %}">
-            <img class='me-0' src="{% static 'images/logo_shop_1.png' %}" alt="logo" style='width:34px;height:35px;position:relative;left:-10px'>
-            <h6 class="text-light d-inline-block p-0 m-0" style="font-size: 18px !important;"><b>Boutique DIC1</b></h6>
+        <li class="d-flex align-items-center align-items-center" >
+            <a href = "{% url 'home-view' %}" style='text-decoration:none;color:white'>
+                <img class='me-0' src="{% static 'images/logo_shop_1.png' %}" alt="logo" style='width:34px;height:35px;position:relative;left:-10px'>
+                <h6 class="text-light d-inline-block p-0 m-0" style="font-size: 18px !important;"><b>Boutique DIC1</b></h6>
+            </a>
         </li>
         <div class="search_bar d-flex align-items-center justify-content-between px-3 py-1">
             <input type="search" placeholder="Rechercher n'importe quoi...">
@@ -39,8 +41,8 @@
         </div>
         <ul class='d-flex position-relative'>
             <li class='cart me-2'>
-                <i class="bi bi-cart2" style='font-size:22px;'></i>
-                {% comment %} <p><span class='nb_article'>2</span></p> {% endcomment %}
+                <a href='{% url "cart_view" %}'><i class="bi bi-cart2" style='font-size:22px;'></i></a>
+                <p><span class='nb_article'>2</span></p>
             </li>
             <li><i class="bi bi-person" style='font-size:22px;'></i></li>
         </ul>
