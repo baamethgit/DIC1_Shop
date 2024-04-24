@@ -2,7 +2,6 @@ $footerMainColor : #191c1f;
 $headerMainColor : #1b6392;
 $thirdColor : rgba(250,130,50,255);
 $footerTextColor : #ADB7BC;
-$form-select-color : red;
 
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital@0;1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;1,100&display=swap');
@@ -35,7 +34,7 @@ $form-select-color : red;
         font-size: 14px;
         border:none !important;
         & *{
-            color:red !important;
+            color:$headerMainColor !important;
         }
         background-color: transparent;
     }

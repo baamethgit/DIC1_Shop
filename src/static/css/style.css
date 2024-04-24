@@ -32,7 +32,7 @@
   background-color: transparent;
 }
 .header select * {
-  color: red !important;
+  color: #1b6392 !important;
 }
 .header .search_bar {
   background-color: white;
