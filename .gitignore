@@ -1,2 +1,4 @@
 *.sqlite3
 *.mdj
+src/DIC1Shop/__pycache__/
+src/shop/__pycache__/
