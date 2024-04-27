@@ -1,0 +1,7 @@
+{% for prod in produits %}
+<h6>{{prod.nom}}</h6>
+{{prod.description}}
+{% for image in prod.images.all %}
+    <img src = " {{image.image.url}} " style='width:50px;height:50px'>
+{% endfor %}
+{% endfor %}

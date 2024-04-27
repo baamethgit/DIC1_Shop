@@ -79,7 +79,7 @@ WSGI_APPLICATION = "DIC1Shop.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "dic1_shop.sqlite3",
+        "NAME": BASE_DIR / "dic1shop.sqlite3",
     }
 }
 
@@ -126,3 +126,6 @@ STATIC_ROOT = BASE_DIR/'staticfiles' # Indique à Django où collecter les fichi
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'

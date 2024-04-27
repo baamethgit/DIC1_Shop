@@ -171,13 +171,13 @@ ul{
 .panier{
     background-color: transparent;
     .row{
-        & > div:first-child{
-            // background-color: green;
-        }
-        div:last-child{
+        // & > div:first-child{
+        //     // background-color: green;
+        // }
+        // div:last-child{
             
-            // background-color: rgb(128, 128, 134);
-        }
+        //     // background-color: rgb(128, 128, 134);
+        // }
         .titre{
             font-family: Public Sans;
             font-size: 18px;
