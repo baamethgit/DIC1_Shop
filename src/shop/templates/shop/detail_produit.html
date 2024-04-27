@@ -17,14 +17,14 @@
                         <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>ref</span>
                     </li>
                     <li>
-                        <span style = "color: #5F6C72">ref</span> : 
+                        <span style = "color: #5F6C72">catégorie</span> : 
                         <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>ref</span>
                     </li>
                 </ul>
                 <span class='prix_produit' style='font-weight:600;color:#2DA5F3;font-size:18px'>1 699 $</span>
                 <hr class="w-100">
                 <form action="" class="d-flex" style='width:75%'>
-                    <div class="border border-1 me-2 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:85%">
+                    <div class="compteur border border-1 me-2 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:85%">
                         <i class="bi bi-plus" style="cursor: pointer;"></i>
                         <input type="text" min="01" value='02' class="border-0 " style="width: 20px;height:10px">
                         <i class="bi bi-dash" style="cursor: pointer;"></i>
@@ -34,8 +34,17 @@
                         <i class="bi bi bi-cart2" style='cursor:pointer;'></i>
                     </span>
                 </form>
-                <p>Partager le produit </p>
+                <p class='position-relative pe-2 pt-4 pb-3' style='right:0'>
+                    {% comment %} <span style='float:right'> {% endcomment %}
+                        Partager le produit
+                    {% comment %} </span> {% endcomment %}
+                </p>
+                <div class='border border-1 p-3'>
+                    <p>Garantie à 100 % Paiement sécurisé</p>
+                    <img src = "{% static 'images/Payment_Method.png' %}">
+                </div>
             </div>
+        </div>
         <div class="row my-5">
             <div class="col-12 border border-1 px-2 py-4">
                 <p class='' style='color:#191C1F;font-family: Public Sans;font-weight:600'>Description</p>
