@@ -2,3 +2,4 @@
 *.mdj
 src/DIC1Shop/__pycache__/
 __pycache__/
+.vscode/

@@ -33,12 +33,15 @@
                 <h6 class="text-light d-inline-block p-0 m-0" style="font-size: 18px !important;"><b>Boutique DIC1</b></h6>
             </a>
         </li>
-        <div class="search_bar d-flex align-items-center justify-content-between px-3 py-1">
-            <input type="search" placeholder="Rechercher n'importe quoi...">
-            <span class="" id="search-addon">
-              <i class="fas fa-search"></i>
-            </span>
-        </div>
+        {% comment %} {% block barre_recherche %} {% endcomment %}
+        {% if user.is_authenticated %}
+            <div class="search_bar d-flex align-items-center justify-content-between px-3 py-1">
+                <input type="search" placeholder="Rechercher n'importe quoi...">
+                <span class="" id="search-addon">
+                <i class="fas fa-search"></i>
+                </span>
+        </div>{% endif %}
+        {% comment %} {% endblock  %} {% endcomment %}
         <ul class='d-flex position-relative'>
             <li class='cart me-2'>
                 <a href='{% url "cart_view" %}'><i class="bi bi-cart2" style='font-size:22px;'></i></a>

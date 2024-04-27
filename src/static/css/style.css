@@ -6,6 +6,7 @@
 }
 .main_block * {
   box-sizing: border-box;
+  font-family: Public Sans;
 }
 
 .head {
