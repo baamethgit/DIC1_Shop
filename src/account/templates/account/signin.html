@@ -11,50 +11,28 @@
                <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-               <form action="#" class="login">
-                  {% comment %} <div class="field">
+               <form action="#" class="login" method='POST'>
+                {% csrf_token %}
+                  <div class="field">
                     <label for ''>prenom </label><br>
-                     <input type="email" required>
+                     <input type="email" required name='username'>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Password" required>
+                    <label for ''>password </label><br>
+                     <input type="password" placeholder="" required name='password'>
                   </div>
-                  <div class="pass-link">
-                     <a href="#">Forgot password?</a>
-                  </div>
-                  <div class="field btn">
-                     <div class="btn-layer"></div>
-                     <input type="submit" value="Login">
-                  </div>
-                  <div class="signup-link">
-                     Not a member? <a href="">Signup now</a>
+                  {% comment %} <div class="pass-link">
+                     <a href="#">Mot de passe oublié</a>
                   </div> {% endcomment %}
-                  {% csrf_token %}
-                  {{login_form.as_p}}
+                  <br><br>
                   <span class="submit_btn">
                     <input type="submit" value="Connexion" class='py-2 fw-bold '>
                     <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
                   </span>
                </form>
-               <form action="#" class="signup">
-                  <div class="field">
-                    <label>prenom </label><br>
-                     <input type="text"required>
-                  </div>
-                  <div class="field">
-                    <label>nom </label><br>
-                     <input type="text"required>
-                  </div>
-                  <div class="field">
-                    <label>date de naissance : </label><br>
-                     <input type="password" placeholder = "JJ/MM/AA" required>
-                  </div>
-                  <div class="field">
-                    <label>Courriel : <i class="bi bi-eye"></i></label><br>
-                    <input type="password" required>
-                  </div>
-                  {% csrf_token %}
-                  {{ signin_form.as_p }}
+               <form action="#" class="signup" method = 'POST'>
+                {% csrf_token %}
+                {{form.as_p}}
                   <br>
                   <span class="submit_btn">
                     <input type="submit" value="Suivant" class='py-2 fw-bold '>
@@ -195,19 +173,19 @@
   }
 
 
-  .form-inner form .pass-link{
+  {% comment %} .form-inner form .pass-link{
     margin-top: 5px;
-  }
+  } {% endcomment %}
   .form-inner form .signup-link{
     text-align: center;
     margin-top: 30px;
   }
-  .form-inner form .pass-link a,
+  {% comment %} .form-inner form .pass-link a, {% endcomment %}
   .form-inner form .signup-link a{
     color: #fa4299;
     text-decoration: none;
   }
-  .form-inner form .pass-link a:hover,
+  {% comment %} .form-inner form .pass-link a:hover, {% endcomment %}
   .form-inner form .signup-link a:hover{
     text-decoration: underline;
   }
