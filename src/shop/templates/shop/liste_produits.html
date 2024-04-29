@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <p>CATÉGORIE DE PRODUITS</p>
+      <ul class="list-group list-group-flush">
+        {% for cat in categories %}
+            <li class="list-group-item mb-1 ">
+              <label>
+                  <input type="radio" name="produit" value=""> 
+                  <a>Tous les categories</a>
+              </label>
+            </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        {% for prod in produits %}
+        <div class="col-md-3 ">
+          <div class="card border border-1 me-0 w-100">
+            <img src="image.png" alt="Photo 1" class="img-fluid">
+            <div class="card-body">
+                  <p class="card-text">{{prod.nom}}</p>
+            </div>
+          </div>
+          {% for image in prod.images.all %}
+            <img src = " {{image.image.url}} " style='width:50px;height:50px'>
+          {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    <style>
+    .col-md-3{
+        padding-left: 15px !important;
+        padding-right: 0 !important;
+    }
+    .list-group-item{
+        height: 25px;
+        font-size: x-small;
+    }
+    /* CSS */
+    input[type="radio"]:checked {
+        background-color: white;
+        border-color: orange;
+    }
+    .list-group-item {
+        border: none;
+    }
+    </style>
+{% endblock  %}

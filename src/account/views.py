@@ -1,30 +1,48 @@
-
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model,login,logout,authenticate
-from .forms import CustomUserCreationForm,signupForm
-User=get_user_model()
+from .forms import signupForm,LoginForm
+from datetime import datetime
 
-def login_user(request):
+User = get_user_model()
+
+def convert_date_format(date_str):
+    date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+    formatted_date = date_obj.strftime('%Y-%m-%d')
+    return formatted_date
+
+def signup_login_view(request):
+    message = ''
+    signup_form = signupForm()
+    login_form = LoginForm()
+    default_section = 'login'
     if request.method == 'POST':
-        courriel = request.POST.get("username")
-        password = request.POST.get("password")
-        print(courriel,password)
-        user = authenticate(request, courriel=courriel, password=password)
-        print(user)
-        if user:
-            login(request, user)
-            return redirect('home-view')
-    return render(request, "account/signin.html")
-
-
-def signup_user(request):
-    if request.method == 'POST':
-        form = signupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home-view')
-    else:
-        form = signupForm()
-        # print(form)
-    return render(request, 'account/signin.html', {'form': form})
+        # Si le formulaire d'inscription est soumis
+        if 'signup_form' in request.POST:
+            default_section = 'signup'
+            signup_form = signupForm(request.POST)
+            if signup_form.is_valid():
+                user = signup_form.save()
+                login(request, user)
+                return redirect('home-view')
+            message = 'Informations invalides'
+            context = {'signup_form': signup_form,'login_form': login_form,'login_message': "",'signup_message':message,"default_section":default_section}
+            return render(request, 'account/signin.html', context=context)    
+        # Si le formulaire de connexion est soumis
+        elif 'login_form' in request.POST:
+            default_section = 'login'
+            login_form = LoginForm(request.POST)
+            if login_form.is_valid():
+                user = authenticate(
+                    username=login_form.cleaned_data['username'],
+                    password=login_form.cleaned_data['password'],
+                )
+                if user is not None:
+                    login(request, user)
+                    message = "utilisateur connecté avec succés"
+                    print(message)
+                    return redirect('home-view')
+            message = 'Identifiants invalides.'
+            context = {'signup_form': signup_form,'login_form': login_form,'login_message': message,'signup_message':"","default_section":default_section}
+            return render(request, 'account/signin.html', context=context)
+    context = {'signup_form': signup_form, 'login_form': login_form,'default_section':default_section}
+    return render(request, 'account/signin.html', context=context)

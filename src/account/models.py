@@ -4,14 +4,12 @@ class UserManager(BaseUserManager):
     def create_user(self, courriel,prenom, nom, date_naissance, password=None):
         if not courriel:
             raise ValueError("L\'adresse courriel doit être fournie'")
-
         user = self.model(
             courriel=self.normalize_email(courriel),
             prenom = prenom,
             nom = nom,
             date_naissance=date_naissance,
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -44,13 +42,11 @@ class UserModel(AbstractBaseUser):
     REQUIRED_FIELDS = ['prenom', 'nom', 'date_naissance']
     USERNAME_FIELD = 'courriel'
     EMAIL_FIELD = 'courriel'
-    
     objects = UserManager()
 
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
         return self.is_admin
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -60,10 +56,10 @@ class UserModel(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
         return True
 
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
         return True
+    
+# Ce code est basé sur les exemples donnée dans la documentation de django 4.2

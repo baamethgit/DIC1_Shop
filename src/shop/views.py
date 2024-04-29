@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 from .models import Produit,Categorie
 from django.views import defaults as default_views
-# /mport http404
+
 # Create your views here.
 class detailProduit(DetailView):
     pass
