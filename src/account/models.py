@@ -32,12 +32,12 @@ class UserModel(AbstractBaseUser):
     nom = models.CharField(max_length=128)
     date_naissance = models.DateField(verbose_name='Date de naissance')
     courriel = models.EmailField(unique = True)
-    mail_secondaire = models.EmailField(blank=True, null=True,unique = True)
-    telephone = models.CharField(max_length=128,blank=True, null=True)
-    adresse = models.CharField(max_length = 250,blank=True, null=True)
-    pays = models.CharField(max_length=128,blank=True, null=True)
-    region = models.CharField(max_length=128,blank=True, null=True)
-    code_postal = models.CharField(max_length=128,blank=True, null=True)
+    mail_secondaire = models.EmailField(blank=True, null=True,unique = True , verbose_name='Email Secondaire')
+    telephone = models.CharField(max_length=128,blank=True, null=True,verbose_name = "Numéro de téléphone")
+    adresse = models.CharField(max_length = 250,blank=True, null=True,verbose_name='Adresse')
+    pays = models.CharField(max_length=128,blank=True, null=True,verbose_name='Pays')
+    region = models.CharField(max_length=128,blank=True, null=True,verbose_name='Région')
+    code_postal = models.CharField(max_length=128,blank=True, null=True,verbose_name='Code Postal')
     
     REQUIRED_FIELDS = ['prenom', 'nom', 'date_naissance']
     USERNAME_FIELD = 'courriel'

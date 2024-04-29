@@ -9,7 +9,8 @@ class detailProduit(DetailView):
 
 def listProduit(request):
     produits = Produit.objects.all()
-    return render(request,'list.html', {'produits':produits})
+    categories = Categorie.objects.all()
+    return render(request,'liste_produits.html', {'produits':produits,'categories':categories})
 
 def detailProduit(request,slug):
     try:

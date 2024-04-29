@@ -14,12 +14,7 @@
             <div class="form-inner">
                <form action="#" class="login" method='POST'>
                 {% csrf_token %}
-                {{login_form.as_p}}
-                  {% comment %} <div class="field">
-                    <label for ''>Courriel </label><br>
-                     <input type="email" required name='username'>
-                  </div>
-                  {% endcomment %}
+                {{login_form.as_div}}
                   {% comment %} <div class="pass-link">
                      <a href="#">Mot de passe oublié</a>
                   </div> {% endcomment %}
@@ -32,7 +27,7 @@
                </form>
                <form class="signup" method = 'POST'>
                 {% csrf_token %}
-                {{signup_form.as_p}}
+                {{signup_form.as_div}}
                   <p class='text-danger'>{{signup_message}}</p>
                   <span class="submit_btn">
                     <input type="submit" value="Suivant" class='py-2 fw-bold ' name='signup_form'>
@@ -156,17 +151,25 @@
     transition: all 0.6s;
   }
   .form-inner form .field{
-    height: 50px;
+    height: 35px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0px;
+    margin-bottom:5px;
   }
-  .form-inner form .field input{
+  .form-inner form div > input{
     height: 100%;
     width: 100%;
     outline: none;
     padding-left: 15px;
+    margin-top:0px;
+    margin-top:0px;
   }
-
+  .form-inner form div > input[type='password']{
+    color:red;
+  }
+  .form-inner form div > label{
+    margin-bottom:0px;
+  }
 
   {% comment %} .form-inner form .pass-link{
     margin-top: 5px;

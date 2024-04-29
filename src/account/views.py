@@ -46,3 +46,22 @@ def signup_login_view(request):
             return render(request, 'account/signin.html', context=context)
     context = {'signup_form': signup_form, 'login_form': login_form,'default_section':default_section}
     return render(request, 'account/signin.html', context=context)
+
+
+class updateUser():
+    pass
+
+def stp1(request):
+    if request.method == 'POST':
+        # Si le formulaire d'inscription est soumis
+        if 'signup_form' in request.POST:
+            default_section = 'signup'
+            signup_form = signupForm(request.POST)
+            if signup_form.is_valid():
+                # Stocker les informations saisies dans la session
+                request.session['signup_data'] = signup_form.cleaned_data
+                return redirect('step_two')  # Rediriger vers la deuxième étape d'inscription
+            
+            message = 'Informations invalides'
+            context = {'signup_form': signup_form, 'login_form': 'login_form', 'login_message': '', 'signup_message': message, "default_section": default_section}
+            return render(request, 'account/signin.html', context=context)

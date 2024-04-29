@@ -16,13 +16,28 @@ class CustomUserChangeForm(UserChangeForm):
    
 # authentication/forms.py
 class LoginForm(forms.Form):
-    username = forms.EmailField(max_length=63, label='Courriel')
-    password = forms.CharField(max_length=63, widget=forms.PasswordInput, label='Password')    
-     
+    username = forms.EmailField(max_length=63, label='Courriel',widget=forms.EmailInput(attrs={'class': 'field'}))
+    password = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={'class': 'field'}),label='Password')    
+    
 class signupForm(ModelForm):
     class Meta:
         model = UserModel
-        fields = ('prenom','nom','courriel','date_naissance')
+        fields = ('prenom', 'nom', 'date_naissance', 'courriel')
         widgets = {
-            'date_naissance': forms.TextInput(attrs={'placeholder': 'JJ/MM/AAAA'})
+            'prenom': forms.TextInput(attrs={'class': 'field'}),
+            'nom': forms.TextInput(attrs={'class': 'field'}),
+            'courriel': forms.TextInput(attrs={'class': 'field'}),
+            'date_naissance': forms.TextInput(attrs={'class': 'field', 'placeholder': 'JJ/MM/AAAA'})
         }
+
+class updateForm(ModelForm):
+    class Meta:
+        model = UserModel
+        fields = ('prenom','nom','courriel',"mail_secondaire",'telephone',"adresse",'pays','region','code_postal')
+        widgets = {
+            # 'mail_secondaire': forms.EmailField(),
+            'telephone':forms.TextInput()
+        }
+        
+class updatePasswordForm():
+    pass

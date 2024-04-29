@@ -7,9 +7,9 @@
       <ul class="list-group list-group-flush">
         {% for cat in categories %}
             <li class="list-group-item mb-1 ">
-              <label>
-                  <input type="radio" name="produit" value=""> 
-                  <a>Tous les categories</a>
+              <label for = "{{ cat.nom }}">
+              <input type="radio" name="produit" value="" id = "{{ cat.nom }}"> 
+              <a>{{ cat.nom }}</a>
               </label>
             </li>
         {% endfor %}
@@ -25,9 +25,10 @@
                   <p class="card-text">{{prod.nom}}</p>
             </div>
           </div>
-          {% for image in prod.images.all %}
+          <img src = "{{produit.images.all.0.image.url}}" style='width:50px;height:50px'>
+          {% comment %} {% for image in prod.images.all %}
             <img src = " {{image.image.url}} " style='width:50px;height:50px'>
-          {% endfor %}
+          {% endfor %} {% endcomment %}
         </div>
         {% endfor %}
     </div>

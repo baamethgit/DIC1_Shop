@@ -55,6 +55,11 @@ class Article(models.Model):
     def __str__(self) -> str:
         return f"{self.produit.nom} ({self.quantite})"
     
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if self.panier:
+    #         self.panier.get_total_amount() 
+    
 class Panier(models.Model):
     STATUS_CHOICES = (
     ('en_attente', 'En attente de traitement'),

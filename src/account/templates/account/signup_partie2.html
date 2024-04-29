@@ -5,8 +5,8 @@
          <div class="form-container">
           <span id='myVar' class='d-none'>{{default_section}}</span>
             <div class="slide-controls">
-               <input type="radio" name="slide" id="login" {% if default_section == "login" %} checked {% endif %}>
-               <input type="radio" name="slide" id="signup" {% if default_section == "signup" %} checked {% endif %}>
+               <input type="radio" name="slide" id="login" >
+               <input type="radio" name="slide" id="signup"checked>
                <label for="login" class="slide login">Connexion</label>
                <label for="signup" class="slide signup">Une inscription</label>
                <div class="slider-tab"></div>
@@ -15,15 +15,6 @@
                <form action="#" class="login" method='POST'>
                 {% csrf_token %}
                 {{login_form.as_p}}
-                  {% comment %} <div class="field">
-                    <label for ''>Courriel </label><br>
-                     <input type="email" required name='username'>
-                  </div>
-                  {% endcomment %}
-                  {% comment %} <div class="pass-link">
-                     <a href="#">Mot de passe oublié</a>
-                  </div> {% endcomment %}
-                  
                   <p class='text-danger'>{{login_message}}</p>
                   <span class="submit_btn">
                     <input type="submit" value="Connexion" class='py-2 fw-bold ' name='login_form'>
@@ -33,6 +24,8 @@
                <form class="signup" method = 'POST'>
                 {% csrf_token %}
                 {{signup_form.as_p}}
+                <p class='text-primary'>Êtes-vous d'accord avec les conditions d'utilisation 
+                  et la politique de confidentialité ?.</p>
                   <p class='text-danger'>{{signup_message}}</p>
                   <span class="submit_btn">
                     <input type="submit" value="Suivant" class='py-2 fw-bold ' name='signup_form'>
