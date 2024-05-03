@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "shop",
     "bootstrap5",
     "account",
+    'reset_migrations',
 ]
 
 MIDDLEWARE = [
@@ -128,4 +129,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = "account.userModel"
+AUTH_USER_MODEL = "account.UserModel"

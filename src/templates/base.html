@@ -40,36 +40,5 @@
 </body>
 </html>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const plusBtn = document.querySelector(".compteur .bi-plus");
-        const minusBtn = document.querySelector(".compteur .bi-dash");
-        const inputField = document.querySelector(".compteur input[type='text']");
-        plusBtn.addEventListener("click", function() {
-            incrementCounter();
-        });
-        minusBtn.addEventListener("click", function() {
-            decrementCounter();
-        });
-        function incrementCounter() {
-            let value = parseInt(inputField.value, 10);
-            if (!isNaN(value)) {
-                value++;
-                inputField.value = pad(value); // Utiliser la fonction pad pour ajouter un 0 devant les nombres < 10
-            }
-        }
-        // Fonction pour décrémenter le compteur
-        function decrementCounter() {
-            let value = parseInt(inputField.value, 10);
-            if (!isNaN(value) && value > 1) {
-                value--;
-                inputField.value = pad(value);
-            }
-        }
-        function pad(number) {
-            if (number < 10) {
-                return '0' + number;
-            }
-            return number;
-        }
-    });
+    
 </script>

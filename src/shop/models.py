@@ -1,7 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-
+from django.core.validators import MaxValueValidator, MinValueValidator 
 from DIC1Shop.settings import AUTH_USER_MODEL
 
 class Categorie(models.Model):
@@ -18,12 +18,13 @@ class Categorie(models.Model):
         
 class Produit(models.Model):
     nom = models.CharField(max_length = 128)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     marque = models.CharField(max_length=128)
     prix = models.FloatField()
     stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0)
     categorie = models.ForeignKey(Categorie, on_delete = models.SET_NULL, null = True, blank = True)
-    slug = models.SlugField(max_length = 128,blank=True)
+    slug = models.SlugField(max_length = 128,blank=True,unique=True)
+    star = models.IntegerField(default=0 ,blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
     
     def __str__(self):
         return self.nom
@@ -66,14 +67,20 @@ class Panier(models.Model):
     ('en_cours', 'En cours de livraison'),
     ('livre', 'Livré'),
     )
-    user = models.OneToOneField(AUTH_USER_MODEL, on_delete = models.CASCADE)
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete = models.CASCADE)
+    # équivalent à 
+    # user = models.OneToOneField(unique = True,AUTH_USER_MODEL, on_delete = models.CASCADE)
     articles = models.ManyToManyField(Article)
-    
+    status = models.CharField(max_length=100,choices=STATUS_CHOICES)
+    dateCommande = models.DateTimeField(blank = True, null = True)
+
     def get_total_amount(self):
         return sum(article.produit.prix * article.quantite for article in self.articles.all())
 
     @property
     def montant(self):
         return self.get_total_amount()
-    status = models.CharField(max_length=100,choices=STATUS_CHOICES)
-    dateCommande = models.DateTimeField(blank = True, null = True)
+    
+    # def __str__(self):
+    #     return self.user.username
+    

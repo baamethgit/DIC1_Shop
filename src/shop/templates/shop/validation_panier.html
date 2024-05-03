@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="mx-auto my-5">
+        <div>
+            <p></p>
+            <h5>votre commande a été validée</h5>
+            <p class="text-center">Pellentesque sed lectus nec tortor tristique accumsan quis 
+                dictum risus. Donec volutpat mollis nulla non facilisis.</p>
+            <p class = "submit_btn">
+                <a href="{% url "home-view" %}">ACCEUIL</a>
+            </p>
+            <p class = "submit_btn">
+                <a href="{% url "home-view" %}">SUIVRE LE COLIS</a>
+            </p>
+        </div>
+    </section>
+{% endblock  %}

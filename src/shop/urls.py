@@ -1,6 +1,13 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from .views import listProduit,detailProduit,produitParCategorie,panier
+from django.conf.urls.static import static
+# from  DIC1Shop.settings import MEDIA_ROOT,MEDIA_URL
 
 urlpatterns = [
-    # path('panier/', TemplateView.as_view(template_name = 'shop/panier.html'), name='cart_view'),
-    ]
+    path('panier/', panier, name='cart-view'),
+    path('produits/all',listProduit,name='all-product-view'),
+    path('produits/categories/<str:slug>',produitParCategorie,name='categorie-view'),
+    path("produit/<str:slug>", detailProduit, name='single-product-view'),
+    ] 
+# + static(MEDIA_URL,document_root = MEDIA_ROOT)

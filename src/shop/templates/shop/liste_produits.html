@@ -1,37 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
+<div class="w-100 my-4">
   <div class="row">
-    <div class="col-md-3">
-      <p>CATÉGORIE DE PRODUITS</p>
+    <div class="col-md-3 liste_categories">
+      <p style='color:#191C1F;font-size:16px;font-weight:500'>CATÉGORIE DE PRODUITS</p>
+        <a href ='{% url "home-view" %}'>
+          <input type="radio" id="tous" name="categorie" value="Toutes" >
+          <label for="tous">Toutes</label>
+          <br>
+        </a>
       <ul class="list-group list-group-flush">
         {% for cat in categories %}
-            <li class="list-group-item mb-1 ">
-              <label for = "{{ cat.nom }}">
-              <input type="radio" name="produit" value="" id = "{{ cat.nom }}"> 
-              <a>{{ cat.nom }}</a>
-              </label>
-            </li>
+        <li>
+          <a>
+            <input type="radio" id="{{ cat.nom }}" name="categorie" value="{{ cat.nom }}">
+            <label for="{{ cat.nom }}">{{ cat.nom }}</label>
+            <br>
+          </a>
+        </li>
         {% endfor %}
       </ul>
     </div>
+
     <div class="col-md-9">
-      <div class="row">
+        <div class="row">
         {% for prod in produits %}
-        <div class="col-md-3 ">
-          <div class="card border border-1 me-0 w-100">
-            <img src="image.png" alt="Photo 1" class="img-fluid">
-            <div class="card-body">
-                  <p class="card-text">{{prod.nom}}</p>
-            </div>
+          <div class="col-md-3 ">  
+            <div class="card border border-1 me-0 w-100">
+              <img src = "{{prod.images.all.0.image.url}}" style='width:50px;height:50px'  class="img-fluid">
+              <div class="card-body">
+                    <p class="card-text"> <a href = {% url "single-product-view" prod.slug%}>{{prod.nom}}</a></p>
+              </div>
+            </div>          
           </div>
-          <img src = "{{produit.images.all.0.image.url}}" style='width:50px;height:50px'>
-          {% comment %} {% for image in prod.images.all %}
-            <img src = " {{image.image.url}} " style='width:50px;height:50px'>
-          {% endfor %} {% endcomment %}
-        </div>
         {% endfor %}
+        </div>
     </div>
+  </div>
 </div>
     <style>
     .col-md-3{
@@ -50,5 +55,11 @@
     .list-group-item {
         border: none;
     }
+    .liste_categories a{
+      color:#475156;
+    }
+    {% comment %} .liste_categories input[type='radio'].checked{
+      color:red;
+    } {% endcomment %}
     </style>
 {% endblock  %}

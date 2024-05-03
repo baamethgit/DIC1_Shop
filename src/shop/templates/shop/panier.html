@@ -11,37 +11,48 @@
                     <thead class="w-100">
                         <tr class="w-100">
                             <th class="ps-4">PRODUITS</th>
-                            <th>PRIX</th>
+                            <th class="">PRIX</th>
                             <th>QUANTITE</th>
                             <th class="pe-4">TOTAL</th>
                         </tr>
                     </thead>
                     <div class="tbody w-100">
+                        {% for article in articles %}
                             <tr class="w-100">
                                 <td class="ps-4">
+                                    <span class='supprimer_article'></span>
                                     <img src="product_image" alt="" style="width: 40px;height:40px" class="">
-                                    <p class="d-inline-block">Nom du produit et un peu de description</p>
+                                    <p class="d-inline-block">{{ article.produit.nom}} </p>
                                 </td>
-                                <td>180$</td>
                                 <td>
-                                    <div class="compteur border border-1 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:85%">
-                                        <i class="bi bi-dash" style="cursor: pointer;"></i>
-                                        <input type="text" min="01" value='01' class="border-0 " style="width: 20px;height:10px">
-                                        <i class="bi bi-plus" style="cursor: pointer;"></i>                    
+                                    <span>{{ article.produit.prix }}</span> $
+                                    <input  class="prix_article" type="text" hidden value = "{{ article.produit.prix }}">
+                                </td>
+                                <td>
+                                    <div class="compteur border border-1 py-1 d-flex justify-content-between align-items-center px-2 mx-2" style="font-size: 13px;width:85%">
+                                        <i class="bi bi-dash" data-article="{{ article.id }}" style="cursor: pointer;font-size:20px"></i>
+                                        <input type="text" min="01" value='{{article.quantite}}' class="border-0 text-center" style="width: 60px;height:30px">
+                                        <i class="bi bi-plus" data-article="{{ article.id }}" style="cursor: pointer;font-size:20px"></i>                    
                                     </div>
                                 </td>
-                                <td class="pe-4">180$</td>
+                                <td class="pe-4" >
+                                    <span class="prix_total_article">180</span> $
+                                    <!-- <input type="text" hidden class="prix_totale_article" value="{{article.produit.prix}}"> -->
+                                </td>
                             </tr>
+                        {% empty %}
+                            <h2>Votre panier est vide.</h2>
+                        {% endfor %}
                     </div>
                 </table>
                 <hr class="w-100">
-                <div class="btns d-flex justify-content-between px-4">
+                <div class="btns d-flex justify-content-between px-4 mb-4">
                     <span class="submit_panier px-3">
                         <i class="bi bi-arrow-left" style='cursor:pointer;'></i>
                         <input type="submit" value="MAISON" class='py-2'>
                     </span>
                     <span class="submit_panier px-3">
-                        <input type="submit" value="VALIDER" class='py-2 fw-bold '>
+                        <input type="submit" value="VALIDER" class='py-2 fw-bold'>
                     </span>
                 </div>
             </form>
@@ -51,7 +62,7 @@
                     <b class="d-block titre">Totaux</b>
                     <p class="d-flex justify-content-between">
                         <span style="color:#5F6C72">total</span>
-                        <span style="color:#191C1F">320$</span>
+                        <span style="color:#191C1F">{{panier.montant}}$</span>
                     </p>
                     <p class="d-flex justify-content-between">
                         <span style="color:#5F6C72">frais</span>
@@ -70,4 +81,61 @@
             </div>
         </div>
     </div> 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let compteurs = document.querySelectorAll('.compteur');
+            const plusBtns = document.querySelectorAll(".compteur .bi-plus");
+            const minusBtns = document.querySelectorAll(".compteur .bi-dash");
+            const inputCompteur = document.querySelectorAll(".compteur input[type='text']");
+            const PrixTousArticles = document.querySelectorAll(".prix_article");
+            const TableauPrixTotaux = document.querySelectorAll(".prix_total_article");
+        
+        plusBtns.forEach((plusBtn, index) => {
+            plusBtn.addEventListener("click", function() {
+                incrementCounter(index);
+                mettreAJourPrix(index);
+            });
+        });
+        
+        minusBtns.forEach((minusBtn, index) => {
+            minusBtn.addEventListener("click", function() {
+                decrementCounter(index);
+                mettreAJourPrix(index);
+            });
+        });
+        
+        function incrementCounter(index) {
+            let value = parseInt(inputCompteur[index].value, 10);
+            if (!isNaN(value)) {
+                value++;
+                inputCompteur[index].value = pad(value);
+            }
+        }
+        
+        function decrementCounter(index) {
+            let value = parseInt(inputCompteur[index].value, 10);
+            if (!isNaN(value) && value > 1) {
+                value--;
+                inputCompteur[index].value = pad(value);
+            }
+        }
+        
+        function pad(number) {
+            if (number < 10) {
+                return '0' + number;
+            }
+            return number;
+        }
+        
+        
+        function mettreAJourPrix(index){
+            let quantite = parseInt(inputCompteur[index].value);
+            let prixArticle = PrixTousArticles[index].value;
+            let prixTotaleArticle = parseFloat(prixArticle.replace(',', '.')) * quantite;
+            let spanTotal = TableauPrixTotaux[index];
+            spanTotal.innerHTML = prixTotaleArticle.toFixed(2).toString().replace('.', ',');
+            let totalPanier = 9;
+        }
+    });
+    </script>
 {% endblock  %}

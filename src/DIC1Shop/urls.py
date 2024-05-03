@@ -20,15 +20,10 @@ from DIC1Shop.views import home
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from .settings import MEDIA_ROOT,MEDIA_URL
-from shop.views import listProduit,detailProduit,produitParCategorie
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('',home,name = 'home-view'),
     path("account/",include("account.urls")),
-    path("shop/panier", TemplateView.as_view(template_name = 'shop/panier.html'), name='cart_view'),
-    path("shop/detail_produit", TemplateView.as_view(template_name = 'shop/detail_produit.html'), name='prod_view'),
-    path('liste',listProduit),
-    path('detail/<str:slug>',detailProduit),
-    path('prod_par_categorie/<str:slug>',produitParCategorie),
-]+ static(MEDIA_URL,document_root = MEDIA_ROOT)
+    path('shop/',include('shop.urls'))
+] + static(MEDIA_URL,document_root = MEDIA_ROOT)
