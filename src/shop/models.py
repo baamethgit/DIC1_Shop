@@ -56,10 +56,17 @@ class Article(models.Model):
     def __str__(self) -> str:
         return f"{self.produit.nom} ({self.quantite})"
     
+    @property
+    def prix_total(self):
+        total = self.quantite * self.produit.prix
+        return total
+    
     # def save(self, *args, **kwargs):
+    #     if self.user:
+    #         print("oui")
+    #        anier.articles.add(self)
     #     super().save(*args, **kwargs)
-    #     if self.panier:
-    #         self.panier.get_total_amount() 
+
     
 class Panier(models.Model):
     STATUS_CHOICES = (
@@ -75,12 +82,17 @@ class Panier(models.Model):
     dateCommande = models.DateTimeField(blank = True, null = True)
 
     def get_total_amount(self):
-        return sum(article.produit.prix * article.quantite for article in self.articles.all())
+        return sum(article.prix_total for article in self.articles.all())
 
     @property
     def montant(self):
         return self.get_total_amount()
+
     
-    # def __str__(self):
-    #     return self.user.username
+    @property 
+    def quantitePanier(self):
+        cartitems = self.articles.all()
+        total = sum([item.quantite for item in cartitems])
+        return total
     
+
