@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="mx-auto my-5">
-        <div>
-            <p></p>
-            <h5>votre commande a été validée</h5>
-            <p class="text-center">Pellentesque sed lectus nec tortor tristique accumsan quis 
+    <section class="valider_panier mx-auto my-5 d-flex">
+        <div style = 'width:35%;' class='mx-auto'>
+            <p class='text-center'><i class="bi bi-check-circle-fill text-success" style='font-size:40px'></i></p>
+            <h5 class='fw-bold;' style='font-weight:bold;text-align:center'><span>votre commande a été validée</span></h5>
+            <p class="text-center" style='font-size:14px'>Pellentesque sed lectus nec tortor tristique accumsan quis 
                 dictum risus. Donec volutpat mollis nulla non facilisis.</p>
-            <p class = "submit_btn">
-                <a href="{% url "home-view" %}">ACCEUIL</a>
+            <p class = "submit_btn py-2 mb-4 mx-auto" style='width:37%;'>
+                <a href="{% url "home-view" %}" style='color:white;text-decoration:none'>ACCEUIL</a>
+                <i class="bi bi-arrow-right" style='cursor:pointer;margin:auto'></i>
             </p>
-            <p class = "submit_btn">
-                <a href="{% url "home-view" %}">SUIVRE LE COLIS</a>
+            <p class = "submit_btn py-2 mx-auto" style='opacity:0.6;width:50%'>
+                <a href="{% url "home-view" %}" style='color:white;text-decoration:none'>SUIVRE LE COLIS</a>
+                <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
             </p>
+            <style>
+                .submit_btn{
+                    display:block;
+                }
+            </style>
         </div>
     </section>
 {% endblock  %}

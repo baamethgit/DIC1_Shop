@@ -19,11 +19,12 @@ from django.urls import path,include
 from DIC1Shop.views import home
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
+from shop.views import listProduit
 from .settings import MEDIA_ROOT,MEDIA_URL
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('',home,name = 'home-view'),
+    path('',listProduit,name = 'home-view'),
     path("account/",include("account.urls")),
     path('shop/',include('shop.urls'))
 ] + static(MEDIA_URL,document_root = MEDIA_ROOT)

@@ -1,3 +1,7 @@
+const frais = document.querySelector('.frais')//.innerText;
+const taxes = document.querySelector('.taxes')//.innerText;
+
+
 searchBarInput = document.querySelector('.search_bar input')
 searchBarInput.addEventListener('click',(e)=>{
     e.preventDefault()
@@ -26,10 +30,17 @@ const minusBtns = document.querySelectorAll(".compteur .bi-dash");
         
 let inputfields = document.querySelectorAll(".compteur input[type='text']");
 for(let i =0; i<inputfields.length; i++){
-  inputfields[i].addEventListener('input', updateQuantity)
+  inputfields[i].addEventListener('input', updateQuantity);
+//   let totalePanier = document.querySelector('.panier .total_panier').innerText
+//   let montantFinale = parseFloat(totalePanier) - parseFloat(frais) - parseFloat(taxes);
+//   document.querySelector('.panier .total_panier_avec_frais').innerText = montantFinale.toFixed(2).toString().replace('.', ',');
+  if (inputfields[i].value == '01'){
+    // inputfields[i].closest('div').querySelector('.bi-dash')
+  }
   // l'evenement serait 'change'
-  
 }
+
+
 
 function updateQuantity(e){
     console.log('quantite changé');
@@ -52,8 +63,8 @@ function updateQuantity(e){
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        e.target.closest('.panier').querySelector('.total_panier').innerText = data.montant.toFixed(2);
-        e.target.closest('tr').querySelector('.prix_total_article').innerText = data.prix_total.toFixed(2);
+        e.target.closest('.panier').querySelector('.total_panier').innerText = data.montant.toFixed(2).toString().replace('.', ',');
+        e.target.closest('tr').querySelector('.prix_total_article').innerText = data.prix_total.toFixed(2).toString().replace('.', ',');
     })
     .catch((error) => {
         console.error('Error:', error);

@@ -2,7 +2,6 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import UserModel
 from django.forms import ModelForm
 from django import forms
-from django.forms.widgets import NumberInput  
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = UserModel

@@ -3,16 +3,48 @@
 {% block page %}><span class='text-primary'> profil utilisateur<span>{% endblock  %}
 
 {% block content %}
-    <section class="d-flex justify-content-center align-items-center p-5">
-        <div class="row " style="width: 700px;">
-            <div class="col-6 border border-1" style="height: 200px;">
-
+    <section class="p-5">
+        <div class="row mx-auto align-items-center" style="width:55%">
+            <div class="col-6 border border-1 rounded-1 p-0" style="height: auto;">
+                <p class='w-100 mb-0 px-4 py-3 border-bottom'>INFO COMPTE</p>
+                <div class = 'py-3 ps-4 pe-1'>
+                    <div class='d-flex align-items-center'>
+                        <p style="height:40px;width:40px ;border-radius: 50%;background-color:gray" ></p>
+                        <p class='ms-3'>
+                            <span class="fw-bold">{{ request.user.prenom }} {{ request.user.nom }}</span><br>
+                            <span class='info-user'>
+                                {% if request.user.pays %}
+                                    {{ request.user.region }}
+                                {% endif %}
+                                {% if request.user.pays %}
+                                    ,{{ request.user.pays }}
+                                {% endif %}
+                            </span>
+                        </p>
+                    </div>
+                    <p>E-mail: <span class='info-user'>{{ request.user.courriel }}</span></p>
+                    {% if request.user.telephone %}
+                        <p>numéro de téléphone : <span class='info-user'>{{ request.user.telephone }}</span></p>
+                    {% endif %}
+                    {% if request.user.adresse %}
+                        <p>addresse : <span class='info-user'>{{ request.user.adresse }}</span></p>
+                    {% endif %}
+                    <button class="btn border border-primary text-center">
+                        <a class='w-100' href="" style='text-decoration:none'>MODIFIER LE COMPTE</a>
+                    </button>
+                </div>
             </div>
             <div class="col-6 p-3">
                 <div class="row">
-                    <div class="col-12 my-1 rounder rounded-1 p-2 bg-info" style="height:50px"></div>
-                    <div class="col-12 my-1 rounder rounded-1 p-2 bg-danger" style="height:50px"></div>
-                    <div class="col-12 my-1 rounder rounded-1 p-2 bg-success" style="height:50px"></div>
+                    <div class="col-12 my-1 rounder rounded-1 p-2" style="height:50px;background: #EAF6FE;">
+
+                    </div>
+                    <div class="col-12 my-1 rounder rounded-1 p-2" style="height:50px;background: #FFF3EB;">
+
+                    </div>
+                    <div class="col-12 my-1 rounder rounded-1 p-2" style="height:50px;background: #EAF7E9;">
+
+                    </div>
                 </div>
             </div>
         </div>

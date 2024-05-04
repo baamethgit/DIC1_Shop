@@ -255,3 +255,15 @@ ul{
     height: 100%;
     margin: auto;
 }
+
+.valider_panier{
+    @media screen and (max-width:1000px) {
+        & > div {
+            width: 100% !important;
+        }
+    }
+}
+
+.info-user{
+    color:#5F6C72;
+}

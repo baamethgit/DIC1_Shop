@@ -219,4 +219,14 @@ ul li a {
   max-width: 100%;
   height: 100%;
   margin: auto;
+}
+
+@media screen and (max-width: 1000px) {
+  .valider_panier > div {
+    width: 100% !important;
+  }
+}
+
+.info-user {
+  color: #5F6C72;
 }/*# sourceMappingURL=style.css.map */

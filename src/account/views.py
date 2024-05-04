@@ -50,6 +50,7 @@ def signup_login_view(request):
 
 class updateUser():
     pass
+    # return render(request)
 
 def stp1(request):
     if request.method == 'POST':

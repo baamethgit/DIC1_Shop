@@ -103,3 +103,6 @@ def updateQuantity(request):
 
 def ajouter_prod_au_panier(request):
     return render(request,'j.html')
+
+def validerPanier(request):
+    return render(request,'shop/validation_panier.html')

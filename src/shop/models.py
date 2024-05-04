@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from DIC1Shop.settings import AUTH_USER_MODEL
-
+from django.db.models import F
 class Categorie(models.Model):
     nom = models.CharField(max_length=100)
     slug = models.SlugField(max_length = 128,blank = True)
@@ -21,7 +21,7 @@ class Produit(models.Model):
     description = models.TextField(blank=True)
     marque = models.CharField(max_length=128)
     prix = models.FloatField()
-    stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0)
+    stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0,validators=[MinValueValidator(0)])
     categorie = models.ForeignKey(Categorie, on_delete = models.SET_NULL, null = True, blank = True)
     slug = models.SlugField(max_length = 128,blank=True,unique=True)
     star = models.IntegerField(default=0 ,blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -44,42 +44,49 @@ class ImageProduit(models.Model):
     def __str__(self):
         return self.nom
 class Article(models.Model):
-    STATUS_CHOICES = (
-    ('en_attente', 'En attente de traitement'),
-    ('en_cours', 'En cours de livraison'),
-    ('livre', 'Livré'),
-    )
     user = models.ForeignKey(AUTH_USER_MODEL,on_delete = models.CASCADE)
-    quantite = models.IntegerField(default = 1, verbose_name = "Nombre d'article")
+    quantite = models.IntegerField(default = 1, verbose_name = "Nombre d'article",validators=[MinValueValidator(1)])
     produit = models.ForeignKey(Produit, on_delete = models.CASCADE) # un produit peut appartenir à +sieurs article
-    statusCommande = models.CharField(max_length=100,choices=STATUS_CHOICES)
+    statutCommande = models.BooleanField(default = False)
+    dateCommande = models.DateTimeField(blank = True, null = True)
     def __str__(self) -> str:
         return f"{self.produit.nom} ({self.quantite})"
     
     @property
     def prix_total(self):
         total = self.quantite * self.produit.prix
-        return total
+        return total   
     
     # def save(self, *args, **kwargs):
-    #     if self.user:
-    #         print("oui")
-    #        anier.articles.add(self)
+    #     article_existant = Article.objects.filter(user=self.user,produit=self.produit).first()
+    #     if article_existant:
+    #         print('oui')
+    #         article_existant.quantite += self.quantite
+    #         article_existant.update(quantite=F('quantite') + self.quantite)
+    #     print(article_existant)
+    #     # article_existant, created = Article.objects.update_or_create(
+    #     #     user=self.user,
+    #     #     produit=self.produit,
+    #     #     statutCommande=False,
+    #     #     defaults={'quantite': F('quantite') + self.quantite}
+    #     # )
+    #     # if not created:
+    #     #     # Si l'article existant a été mis à jour, ne pas sauvegarder l'instance actuelle
+    #     #     return 0
     #     super().save(*args, **kwargs)
-
-    
+        
+    # def clean(self):
+    #     super().clean()
+    #     if self.quantite < 1:
+    #         raise ValidationError("La quantité doit être d'au moins 1.")
+    #     produit_stock = self.produit.stock if self.produit else 0
+    #     if self.quantite > produit_stock:
+    #         raise ValidationError("La quantité ne peut pas dépasser le stock disponible.")
 class Panier(models.Model):
-    STATUS_CHOICES = (
-    ('en_attente', 'En attente de traitement'),
-    ('en_cours', 'En cours de livraison'),
-    ('livre', 'Livré'),
-    )
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete = models.CASCADE)
+    # user = models.ForeignKey(unique = True,AUTH_USER_MODEL, on_delete = models.CASCADE)
     # équivalent à 
-    # user = models.OneToOneField(unique = True,AUTH_USER_MODEL, on_delete = models.CASCADE)
-    articles = models.ManyToManyField(Article)
-    status = models.CharField(max_length=100,choices=STATUS_CHOICES)
-    dateCommande = models.DateTimeField(blank = True, null = True)
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete = models.CASCADE)
+    articles = models.ManyToManyField(Article,blank=True)
 
     def get_total_amount(self):
         return sum(article.prix_total for article in self.articles.all())

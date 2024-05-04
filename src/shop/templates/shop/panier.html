@@ -3,12 +3,13 @@
 
 {% block content %}
     <div class = 'container panier'>
-    <form action="" method = 'post'>
+    <form action="{% url "valid-panier" %}" method = 'post'>
         {% csrf_token %}
         <div class = 'row my-5 d-flex justify-content-between'>
             <div class='col-12 mb-3 mb-md-0 col-lg-8 border p-0 border-1 m-0 rounded-1 rounded'>
                 <b class="d-block ps-4 titre">panier</b>
-                <table class="w-100">
+                    {% comment %} <h5 class='bg-danger'>Votre panier est vide.</h5> {% endcomment %}
+                <table class="w-100" style="table-layout: auto">
                     <thead class="w-100">
                         <tr class="w-100">
                             <th class="ps-4">PRODUITS</th>
@@ -22,12 +23,12 @@
                             <tr class="w-100">
                                 <td class="ps-4">
                                     <span class='supprimer_article'></span>
-                                    <img src="product_image" alt="" style="width: 40px;height:40px" class="">
-                                    <p class="d-inline-block">{{ article.produit.nom}} </p>
+                                    <img src="{{ article.produit.images.all.0.image.url}}" alt="" style="width: 40px;height:40px" class="product_image">
+                                    <p class="d-inline-block " style='white-space : wrap;'>{{ article.produit.nom}} </p>
                                 </td>
                                 <td>
-                                    <span>{{ article.produit.prix }}</span> $
-                                    <input  class="prix_article" type="text" hidden value = "{{ article.produit.prix }}">
+                                    <span class='prix_article'>{{ article.produit.prix }}</span> $
+                                    {% comment %} <input  class="prix_article" type="text" hidden value = "{{ article.produit.prix }}"> {% endcomment %}
                                 </td>
                                 <td>
                                     <div class="compteur border border-1 py-1 d-flex justify-content-between align-items-center px-2 mx-2" style="font-size: 13px;width:85%">
@@ -41,8 +42,6 @@
                                     <!-- <input type="text" hidden class="prix_totale_article" value="{{article.produit.prix}}"> -->
                                 </td>
                             </tr>
-                        {% empty %}
-                            <h2>Votre panier est vide.</h2>
                         {% endfor %}
                     </div>
                 </table>
@@ -65,17 +64,17 @@
                         <span class = 'total_panier' style="color:#191C1F">{{panier.montant}}$</span>
                     </p>
                     <p class="d-flex justify-content-between">
-                        <span style="color:#5F6C72">frais</span>
-                        <span class="" style="color:#191C1F">320$</span>
+                        <span style="color:#5F6C72" >frais</span>
+                        <span class="" style="color:#191C1F" class='frais'>320$</span>
                     </p>
                     <p class="d-flex justify-content-between">
-                        <span style="color:#5F6C72">total</span>
-                        <span class="" style="color:#191C1F">320$</span>
+                        <span style="color:#5F6C72">taxes</span>
+                        <span class="" style="color:#191C1F" class='taxes'>320$</span>
                     </p>
                     <hr>
                     <p class="d-flex justify-content-between">
                         <span style="color:#191C1F">Total</span>
-                        <span class="fw-bold" style="color:#191C1F" class='total_panier_avec_frais'>320$</span>
+                        <span><span class="fw-bold" style="color:#191C1F" class='total_panier_avec_frais'>320</span> $</span>
                     </p>
                 </div>
             </div>
@@ -91,15 +90,20 @@
             const PrixTousArticles = document.querySelectorAll(".prix_article");
             const TableauPrixTotaux = document.querySelectorAll(".prix_total_article");
         
+            inputCompteur.forEach((input, index) => {
+                input.value = pad(input.value);
+            })
         plusBtns.forEach((plusBtn, index) => {
             plusBtn.addEventListener("click", function() {
                 incrementCounter(index);
+                inputCompteur[index].dispatchEvent(new Event('input'));
             });
         });
         
         minusBtns.forEach((minusBtn, index) => {
             minusBtn.addEventListener("click", function() {
                 decrementCounter(index);
+                inputCompteur[index].dispatchEvent(new Event('input'));
             });
         });
         
@@ -125,16 +129,6 @@
             }
             return number;
         }
-
-
-        {% comment %} function mettreAJourPrix(index){
-            let quantite = parseInt(inputCompteur[index].value);
-            let prixArticle = PrixTousArticles[index].value;
-            let prixTotaleArticle = parseFloat(prixArticle.replace(',', '.')) * quantite;
-            let spanTotal = TableauPrixTotaux[index];
-            spanTotal.innerHTML = prixTotaleArticle.toFixed(2).toString().replace('.', ',');
-            let totalPanier = 9;
-        } {% endcomment %}
     });
     </script>
 {% endblock  %}

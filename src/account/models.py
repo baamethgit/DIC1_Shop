@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
             date_naissance=date_naissance,
             password=password,
         )
+        user.is_staff = True
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -31,7 +32,7 @@ class UserModel(AbstractBaseUser):
     prenom = models.CharField(max_length=128)
     nom = models.CharField(max_length=128)
     date_naissance = models.DateField(verbose_name='Date de naissance')
-    courriel = models.EmailField(unique = True)
+    courriel = models.EmailField(unique = True,max_length = 255)
     mail_secondaire = models.EmailField(blank=True, null=True,unique = True , verbose_name='Email Secondaire')
     telephone = models.CharField(max_length=128,blank=True, null=True,verbose_name = "Numéro de téléphone")
     adresse = models.CharField(max_length = 250,blank=True, null=True,verbose_name='Adresse')
@@ -42,12 +43,10 @@ class UserModel(AbstractBaseUser):
     REQUIRED_FIELDS = ['prenom', 'nom', 'date_naissance']
     USERNAME_FIELD = 'courriel'
     EMAIL_FIELD = 'courriel'
+    
     objects = UserManager()
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        return self.is_admin
+    
+    is_staff = models.BooleanField(default = False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     
