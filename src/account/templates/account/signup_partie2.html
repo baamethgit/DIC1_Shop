@@ -1,31 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-      <div class="wrapper my-5 mx-auto px-5 py-3">
+      <div class="wrapper my-5 mx-auto px-4 py-3">
          <div class="form-container">
-          <span id='myVar' class='d-none'>{{default_section}}</span>
             <div class="slide-controls">
                <input type="radio" name="slide" id="login" >
-               <input type="radio" name="slide" id="signup"checked>
-               <label for="login" class="slide login">Connexion</label>
+               <input type="radio" name="slide" id="signup" checked>
+               <label for="login" class="slide login"> 
+                  <a href = '{% url "signup-login-view"%}' class='w-100' style='display: inline-block;color:gray;text-decoration:none'>Connexion</a>
+                </label>
                <label for="signup" class="slide signup">Une inscription</label>
                <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-               <form action="#" class="login" method='POST'>
-                {% csrf_token %}
-                {{login_form.as_p}}
-                  <p class='text-danger'>{{login_message}}</p>
-                  <span class="submit_btn">
-                    <input type="submit" value="Connexion" class='py-2 fw-bold ' name='login_form'>
-                    <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
-                  </span>
-               </form>
                <form class="signup" method = 'POST'>
                 {% csrf_token %}
-                {{signup_form.as_p}}
-                <p class='text-primary'>Êtes-vous d'accord avec les conditions d'utilisation 
-                  et la politique de confidentialité ?.</p>
+                {{form.as_p}}
+                <p class='text-primary d-flex' style='font-size:14px;'>
+                  <input type="checkbox" id="regles_utilisation" name="regles_utilisation">
+                  <label for="regles_utilisation">Êtes-vous d'accord avec les conditions d'utilisation 
+                    et la politique de confidentialité ?.
+                  </label>
+                </p>
                   <p class='text-danger'>{{signup_message}}</p>
                   <span class="submit_btn">
                     <input type="submit" value="Suivant" class='py-2 fw-bold ' name='signup_form'>
@@ -36,36 +32,6 @@
          </div>
       </div>
       <script type='text/javascript'>
-        const defaultSection = document.getElementById("myVar").innerText;
-         console.log(defaultSection)
-            const loginRadio = document.getElementById("login");
-            const signupRadio = document.getElementById("signup");
-
-            // Vérifier la valeur de la variable defaultSection et cocher le bouton radio approprié
-            if (defaultSection === "signup") {
-                signupRadio.checked = true;
-            } else {
-                loginRadio.checked = true;
-            }
-
-         const loginText = document.querySelector(".title-text .login");
-         const loginForm = document.querySelector("form.login");
-         const loginBtn = document.querySelector("label.login");
-         const signupBtn = document.querySelector("label.signup");
-         {% comment %} const signupLink = document.querySelector("form .signup-link a"); {% endcomment %}
-         signupBtn.onclick = (()=>{
-           loginForm.style.marginLeft = "-50%";
-           loginText.style.marginLeft = "-50%";
-         });
-         loginBtn.onclick = (()=>{
-           loginForm.style.marginLeft = "0%";
-           loginText.style.marginLeft = "0%";
-         });
-         {% comment %} signupLink.onclick = (()=>{
-           signupBtn.click();
-           return false;
-         }); {% endcomment %}
-         
       </script>
 <style>
     ::selection{
@@ -176,6 +142,12 @@
   {% comment %} .form-inner form .pass-link a:hover, {% endcomment %}
   .form-inner form .signup-link a:hover{
     text-decoration: underline;
+  }
+
+  #regles_utilisation:checked{
+    background-color:red;
+    outline:none;
+    border:none;
   }
 </style>
 {% endblock content %}

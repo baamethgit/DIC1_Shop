@@ -267,3 +267,23 @@ ul{
 .info-user{
     color:#5F6C72;
 }
+
+.modifier_info_user{
+    *:focus {
+        box-shadow: none !important;
+    }
+    input:focus{
+        outline: none;
+        border:none;
+    }
+    .input-group-text{
+        border-left: none !important;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .input-group-text:active,
+    .input-group-text:focus{
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}

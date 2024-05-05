@@ -13,11 +13,14 @@
                         <p class='ms-3'>
                             <span class="fw-bold">{{ request.user.prenom }} {{ request.user.nom }}</span><br>
                             <span class='info-user'>
-                                {% if request.user.pays %}
+                                {% if request.user.region %}
                                     {{ request.user.region }}
+                                    {% if request.user.pays %}
+                                        ,
+                                    {% endif %}
                                 {% endif %}
                                 {% if request.user.pays %}
-                                    ,{{ request.user.pays }}
+                                    {{ request.user.pays }}
                                 {% endif %}
                             </span>
                         </p>
@@ -30,7 +33,7 @@
                         <p>addresse : <span class='info-user'>{{ request.user.adresse }}</span></p>
                     {% endif %}
                     <button class="btn border border-primary text-center">
-                        <a class='w-100' href="" style='text-decoration:none'>MODIFIER LE COMPTE</a>
+                        <a class='w-100' href="{% url "edit-user-view" %}" style='text-decoration:none'>MODIFIER LE COMPTE</a>
                     </button>
                 </div>
             </div>

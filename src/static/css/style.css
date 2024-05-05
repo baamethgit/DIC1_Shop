@@ -229,4 +229,22 @@ ul li a {
 
 .info-user {
   color: #5F6C72;
+}
+
+.modifier_info_user *:focus {
+  box-shadow: none !important;
+}
+.modifier_info_user input:focus {
+  outline: none;
+  border: none;
+}
+.modifier_info_user .input-group-text {
+  border-left: none !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.modifier_info_user .input-group-text:active,
+.modifier_info_user .input-group-text:focus {
+  box-shadow: none !important;
+  outline: none !important;
 }/*# sourceMappingURL=style.css.map */

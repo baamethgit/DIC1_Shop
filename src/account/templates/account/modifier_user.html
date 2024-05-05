@@ -1,4 +1,142 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <section class="modifier_info_user">
+        <div class="col-9 my-3 mx-auto border border-1 rounded-1 p-0" style="height: auto;">
+            <p class='w-100 mb-0 px-4 py-3 border-bottom' style="text-transform: uppercase;">PARAMèTRE DU COMPTE</p>
+            <div class='d-flex p-3'>
+                <p style="height:120px;width:420px ;border-radius: 50%;background-color:gray" class="me-4"></p>
+                <form class="row" method = 'POST'>
+                    {% csrf_token %}
+                    <p class="col-6">
+                        <label for="">Nom et prénom</label><br>
+                        <input required class="px-2 py-1 border w-100" type="text" name="prenom_nom"  {% if user.prenom %} value="{{user.prenom }} {{ user.nom }}" {% endif %}>
+                    </p>
+                    <p class="col-6">
+                        <label for="">E-mail</label><br>
+                        <input required class="px-2 py-1 border w-100" type="email" name="courriel"    {% if user.courriel %} value="{{user.courriel }}" {% endif %}>
+                    </p>
+                    <p class="col-6">
+                        <label for="">Email secondaire</label><br>
+                        <input class="px-2 py-1 border w-100" type="email" name="mail_secondaire"    {% if user.mail_secondaire %} value="{{user.mail_secondaire }}" {% endif %}>              
+                    </p>
+                    <p class="col-6">
+                        <label for="">Numéro de téléphone</label><br>
+                        <input class="px-2 py-1 border w-100" type="text" name="telephone"    {% if user.telephone %} value="{{user.telephone }}" {% endif %}>    
+                    </p>
+                    <p class="col-12">
+                        <label for="">Adresse</label><br>
+                        <input class="px-2 py-1 border w-100" type="text" name="adresse" {% if user.adresse %} value="{{ user.adresse }}" {% endif %}>    
+                    </p>
+                    <p class="col-4">
+                        <label for="">Pays</label><br>
+                        {% if countries %}
+                            <select class = "w-100 px-2 py-1 border" id="country" name="pays" >
+                                {% for country in countries %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                        <input class="px-2 py-1 border w-100" type="text" name="pays"    {% if user.telephone %} value="{{user.telephone }}" {% endif %}>    
+                        {% endif %}
+                    </p>
+                    <p class="col-4">
+                        <label for="">Région</label><br>
+                        <select class = "w-100 px-2 py-1 border" id="id_region" name="region">
+                            <!-- Les options des régions seront ajoutées dynamiquement ici -->
+                        </select>
+                        {% comment %} <input class="px-2 py-1 border w-100" type="text" name="region"    {% if user.telephone %} value="{{user.telephone }}" {% endif %}>     {% endcomment %}
+                    </p>
+                    <p class="col-4">
+                        <label for="">Code postal</label><br>
+                        <input class="px-2 py-1 border w-100" type="text" name="code_postal"    {% if user.code_postal %} value="{{user.code_postal }}" {% endif %}>    
+                    </p>
+                    {% if erreur %}
+                    <p class='col-12 text-danger'>{{ erreur }}</p>
+                    {% endif %}
+                    <p class="submit_btn col-4 d-block ms-3" style="width: auto;">
+                        <input type="submit" value="Sauvegarder les modifications" class='py-2 fw-bold' name="param_compte">
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="col-9 my-4 mx-auto border border-1 rounded-1 p-0">
+            <p class='w-100 mb-0 px-4 py-3 border-bottom' style="text-transform: uppercase;">Changer le mot de passe</p>
+            <div class='p-3'>
+                <form action="" method = 'POST' class="row">
+                    {% csrf_token %}
+                    <p class="col-12">
+                        <label for="">Mot de passe actuel</label><br>
+                        <div class="input-group w-100">
+                            <input required class="form-control shadow-none px-2 py-1 border" type="password" name="mdp_actuel" style="border-right: none !important;">
+                            <div class="input-group-append">
+                                <button type="button" class="input-group-text bg-transparent"><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                    </p>
+                    <p class="col-12">
+                        <label for="">Nouveau mot de passe</label><br>
+                        <div class="input-group w-100">
+                            <input required class="form-control shadow-none px-2 py-1 border" type="password" name="new_mdp" style="border-right: none !important;">
+                            <div class="input-group-append">
+                                <button type="button" class="input-group-text bg-transparent "><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                    </p> 
+                    <p class="col-12">
+                        <label for="">Confirmez le mot de passe</label><br>
+                        <div class="input-group w-100">
+                            <input required class="form-control shadow-none px-2 py-1 border" type="password" name="new_mdp_confirm" style="border-right: none !important;">
+                            <div class="input-group-append">
+                                <button type="button"  class="input-group-text bg-transparent"><i class="bi bi-eye "></i></button>
+                            </div>
+                        </div>
+                    </p>
+                    {% if message_erreur %}
+                        <p class="col-12 text-danger">{{ message_erreur }}</p>
+                    {% endif %}             
+                    <p class="submit_btn d-block ms-3 col-4 " style="width: auto;">
+                        <input type="submit" value="Changer le mot de passe" class='py-2 fw-bold ' name='modifier_mot_de_passe'>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        let btns_toggle_password = document.querySelectorAll('.modifier_info_user .input-group-text');
+        for(btn of btns_toggle_password){
+            btn.addEventListener('click',(e)=>{
+                e.preventDefault();
+                const passwordInput = e.target.closest('.input-group').querySelector('.form-control');
+                const type = passwordInput.getAttribute('type');
+                if (type === 'password'){
+                    passwordInput.setAttribute('type','text');
+                }else if(type === 'text'){
+                    passwordInput.setAttribute('type','password');
+                }
+            })
+}
+        document.getElementById('country').addEventListener('change', function() {
+            let selectedCountry = this.value;
+            fetch('https://restcountries.com/v3.1/region/' + selectedCountry)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    let regionSelect = document.getElementById('id_region');
+                    // Supprimer les anciennes options de la liste déroulante des régions
+                    regionSelect.innerHTML = '';
+                    // Ajouter les nouvelles options de la liste déroulante des régions
+                    data.forEach(region => {
+                        let option = document.createElement('option');
+                        option.value = region;
+                        option.textContent = region;
+                        regionSelect.appendChild(option);
+                        console.log(regionSelect)
+                    });
+                    console.log(data)
+                })
+                .catch(error => console.error('Erreur lors de la récupération des régions :', error));
+        });
+    </script>    
+    
 {% endblock  %}

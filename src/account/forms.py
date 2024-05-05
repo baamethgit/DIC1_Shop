@@ -13,7 +13,6 @@ class CustomUserChangeForm(UserChangeForm):
         model = UserModel
         fields = ("courriel",)
    
-# authentication/forms.py
 class LoginForm(forms.Form):
     username = forms.EmailField(max_length=63, label='Courriel',widget=forms.EmailInput(attrs={'class': 'field'}))
     password = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={'class': 'field'}),label='Password')    
@@ -28,7 +27,38 @@ class signupForm(ModelForm):
             'courriel': forms.TextInput(attrs={'class': 'field'}),
             'date_naissance': forms.TextInput(attrs={'class': 'field', 'placeholder': 'JJ/MM/AAAA'})
         }
+class signupFormStep2(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(), label='Mot de passe')
+    password_confirmation = forms.CharField(widget=forms.PasswordInput(), label='Confirmation du mot de passe')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_confirmation = cleaned_data.get('password_confirmation')
+
+        if password != password_confirmation:
+            raise forms.ValidationError("Les mots de passe ne correspondent pas.")
+
+        return cleaned_data
+
+    # def save(self, commit=True):
+    #     user = super().save(commit=False)
+    #     user.set_password(self.cleaned_data['password'])
+    #     if commit:
+    #         user.save()
+    #     return user
+
+# class signupFormStep2(forms.ModelForm):
+#     class Meta:
+#         model = UserModel
+#         fields = ('password')
+#         widgets = {
+#             'prenom': forms.TextInput(attrs={'class': 'field'}),
+#             'nom': forms.TextInput(attrs={'class': 'field'}),
+#             'courriel': forms.TextInput(attrs={'class': 'field'}),
+#             'date_naissance': forms.TextInput(attrs={'class': 'field', 'placeholder': 'JJ/MM/AAAA'})
+#         }
+    
 class updateForm(ModelForm):
     class Meta:
         model = UserModel

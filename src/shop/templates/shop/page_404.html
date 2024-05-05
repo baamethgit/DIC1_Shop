@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Page not Found{% endblock  %}
 {% block content %}
-    <div></div>
+    <h3> {% if erreur %}
+        {{ erreur }}    
+    {% endif %}</h3>
 {% endblock  %}

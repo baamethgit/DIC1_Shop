@@ -4,22 +4,16 @@
   <div class="row">
     <div class="col-md-3 liste_categories">
       <p style='color:#191C1F;font-size:16px;font-weight:500'>CATÉGORIE DE PRODUITS</p>
-        <a href ='{% url "home-view" %}'>
-          <input type="radio" id="tous" name="categorie" value="Toutes" >
-          <label for="tous">Toutes</label>
-          <br>
-        </a>
-      <ul class="list-group list-group-flush">
+        <label class="cat-item" for='tte'><a href='{% url "home-view" %}'>Toutes</a>
+          <input type="radio" id='tte' checked="checked" name="categorie">
+          <span class="checkmark"></span>
+        </label>
         {% for cat in categories %}
-        <li>
-          <a>
-            <input type="radio" id="{{ cat.nom }}" name="categorie" value="{{ cat.nom }}">
-            <label for="{{ cat.nom }}">{{ cat.nom }}</label>
-            <br>
-          </a>
-        </li>
+        <label class="cat-item"><a href='{% url "home-view" %}'>{{ cat.nom }}</a>
+          <input type="radio" checked="checked" name="categorie">
+          <span class="checkmark"></span>
+        </label>
         {% endfor %}
-      </ul>
     </div>
 
     <div class="col-md-9">
@@ -39,27 +33,71 @@
   </div>
 </div>
     <style>
-    .col-md-3{
-        padding-left: 15px !important;
-        padding-right: 0 !important;
-    }
-    .list-group-item{
-        height: 25px;
-        font-size: x-small;
-    }
-    /* CSS */
-    input[type="radio"]:checked {
-        background-color: white;
-        border-color: orange;
-    }
-    .list-group-item {
-        border: none;
-    }
     .liste_categories a{
       color:#475156;
+      text-decoration:none;
     }
-    {% comment %} .liste_categories input[type='radio'].checked{
-      color:red;
-    } {% endcomment %}
+    .cat-item {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* Hide the browser's default radio button */
+    .cat-item input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    /* Create a custom radio button */
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #eee;
+      border-radius: 50%;
+    }
+    
+    /* On mouse-over, add a grey background color */
+    .cat-item:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+    
+    /* When the radio button is checked, add a blue background */
+    .cat-item input:checked ~ .checkmark {
+      background-color: #FA8232;
+    }
+    
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+    
+    /* Show the indicator (dot/circle) when checked */
+    .cat-item input:checked ~ .checkmark:after {
+      display: block;
+    }
+    
+    /* Style the indicator (dot/circle) */
+    .cat-item .checkmark:after {
+       top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }    
     </style>
 {% endblock  %}

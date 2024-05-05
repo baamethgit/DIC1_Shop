@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from DIC1Shop.settings import AUTH_USER_MODEL
-from django.db.models import F
+import uuid
 class Categorie(models.Model):
     nom = models.CharField(max_length=100)
     slug = models.SlugField(max_length = 128,blank = True)
@@ -20,6 +20,7 @@ class Produit(models.Model):
     nom = models.CharField(max_length = 128)
     description = models.TextField(blank=True)
     marque = models.CharField(max_length=128)
+    ref = models.CharField(max_length=128,unique=True)
     prix = models.FloatField()
     stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0,validators=[MinValueValidator(0)])
     categorie = models.ForeignKey(Categorie, on_delete = models.SET_NULL, null = True, blank = True)
@@ -29,10 +30,12 @@ class Produit(models.Model):
     def __str__(self):
         return self.nom
     
-    def save(self,*args,**kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nom)
-        super().save(*args,**kwargs)
+            uuid_code = str(uuid.uuid4().hex)[:6] 
+            base_slug = slugify(self.nom)
+            self.slug = f"{base_slug}-{uuid_code}"
+        super().save(*args, **kwargs)
         
     def get_absolute_url(self):
         return reverse("home-view")
@@ -55,26 +58,7 @@ class Article(models.Model):
     @property
     def prix_total(self):
         total = self.quantite * self.produit.prix
-        return total   
-    
-    # def save(self, *args, **kwargs):
-    #     article_existant = Article.objects.filter(user=self.user,produit=self.produit).first()
-    #     if article_existant:
-    #         print('oui')
-    #         article_existant.quantite += self.quantite
-    #         article_existant.update(quantite=F('quantite') + self.quantite)
-    #     print(article_existant)
-    #     # article_existant, created = Article.objects.update_or_create(
-    #     #     user=self.user,
-    #     #     produit=self.produit,
-    #     #     statutCommande=False,
-    #     #     defaults={'quantite': F('quantite') + self.quantite}
-    #     # )
-    #     # if not created:
-    #     #     # Si l'article existant a été mis à jour, ne pas sauvegarder l'instance actuelle
-    #     #     return 0
-    #     super().save(*args, **kwargs)
-        
+        return total           
     # def clean(self):
     #     super().clean()
     #     if self.quantite < 1:
@@ -95,11 +79,11 @@ class Panier(models.Model):
     def montant(self):
         return self.get_total_amount()
 
-    
     @property 
     def quantitePanier(self):
         cartitems = self.articles.all()
         total = sum([item.quantite for item in cartitems])
         return total
     
-
+    def __str__(self):
+        return f"{self.user.prenom} {self.user.nom}"

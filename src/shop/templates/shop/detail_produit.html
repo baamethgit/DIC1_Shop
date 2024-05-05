@@ -6,31 +6,33 @@
     <div>
         <div class="row my-5">
             <div class="col-6 border border-1 p-5">
-                <img src="produit.images.all.0.image.url" alt="" class='prod_detail_image'>
-                {% comment %} <img src = "{{produit.images.all.0.image.url}}" style='width:150px;height:150px'> {% endcomment %}
+                <img {% if produit.images.all.0 %} 
+                        src="{{ produit.images.all.0.image.url }}" 
+                    {% else %} 
+                        src="{% static "/images/No_image_available.png" %}" {% endif %} 
+                alt="" class='prod_detail_image'>
             </div>
             <div class="col-6 py-1 ps-5">
-                <p>Apple MacBook Pro 2020 avec puce Apple M1 (13 pouces, 8 Go de 
-                    RAM, 256 Go de stockage SSD) - Gris sidéral</p>
+                <p>{{ produit.nom }}</p>
                 <ul class="d-flex justify-content-between">
                     <li class=''>
                         <span style = "color: #5F6C72">ref</span> : 
-                        <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>ref</span>
+                        <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>{{ produit.ref }}</span>
                     </li>
                     <li>
                         <span style = "color: #5F6C72">catégorie</span> : 
-                        <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>ref</span>
+                        <span style='color:#5F6C72;font-family: Public Sans;font-size: 14px;font-weight: 700;'>{{ produit.categorie.nom }}</span>
                     </li>
                 </ul>
-                <span class='prix_produit' style='font-weight:600;color:#2DA5F3;font-size:18px'>1 699 $</span>
+                <span class='prix_produit' style='font-weight:600;color:#2DA5F3;font-size:18px'>{{ produit.prix }} $</span>
                 <hr class="w-100">
                 <form method = 'POST' class="d-flex" style='width:75%'>
                     {% csrf_token %}
                     <input type='text' name='id_produit' hidden value = "{{ produit.id }}">
-                    <div class="compteur border border-1 me-2 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:85%">
-                        <i class="bi bi-plus" style="cursor: pointer;"></i>
-                        <input type="text" min="01" value='02' class="border-0 " style="width: 20px;height:10px">
-                        <i class="bi bi-dash" style="cursor: pointer;"></i>
+                    <div class="compteur border border-1 me-2 py-1 d-flex justify-content-between align-items-center px-2 mx-auto" style="font-size: 13px;width:75%">
+                        <i class="bi bi-dash" style="cursor: pointer;font-size:25px"></i>
+                        <input type="text" min="01" name ='quantite' value='01' class="border-0 text-center" style="width: 60px;height:30px">
+                        <i class="bi bi-plus" style="cursor: pointer;font-size:25px"></i>                                           
                     </div>
                     <span class="submit_btn">
                         <input type="submit" value="AJOUTER AU PANIER" class='py-2 fw-bold' style="font-weight:700">
@@ -91,4 +93,47 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const plusBtn = document.querySelector(".compteur .bi-plus");
+        const minusBtn = document.querySelector(".compteur .bi-dash");
+        const inputCompteur = document.querySelectorAll(".compteur input[type='text']");
+        const PrixTousArticles = document.querySelectorAll(".prix_article");
+        const TableauPrixTotaux = document.querySelectorAll(".prix_total_article");
+
+        plusBtn.addEventListener("click", function() {
+            incrementCounter(0);
+            inputCompteur.dispatchEvent(new Event('input'));
+        });
+
+        minusBtn.addEventListener("click", function() {
+            decrementCounter(0);
+            inputCompteur.dispatchEvent(new Event('input'));
+        });
+    
+    function incrementCounter(index) {
+        let value = parseInt(inputCompteur[index].value, 10);
+        if (!isNaN(value)) {
+            value++;
+            inputCompteur[index].value = pad(value);
+        }
+    }
+    
+    function decrementCounter(index) {
+        let value = parseInt(inputCompteur[index].value, 10);
+        if (!isNaN(value) && value > 1) {
+            value--;
+            inputCompteur[index].value = pad(value);
+        }
+    }
+    
+    function pad(number) {
+        if (number < 10) {
+            return '0' + number;
+        }
+        return number;
+    }
+});
+</script>
 {% endblock  %}
