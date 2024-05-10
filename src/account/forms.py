@@ -15,7 +15,7 @@ class CustomUserChangeForm(UserChangeForm):
    
 class LoginForm(forms.Form):
     username = forms.EmailField(max_length=63, label='Courriel',widget=forms.EmailInput(attrs={'class': 'field'}))
-    password = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={'class': 'field'}),label='Password')    
+    password = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={'class': 'field password_input'}),label='Mot de passe')    
     
 class signupForm(ModelForm):
     class Meta:
@@ -28,17 +28,15 @@ class signupForm(ModelForm):
             'date_naissance': forms.TextInput(attrs={'class': 'field', 'placeholder': 'JJ/MM/AAAA'})
         }
 class signupFormStep2(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput(), label='Mot de passe')
-    password_confirmation = forms.CharField(widget=forms.PasswordInput(), label='Confirmation du mot de passe')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'field password_input','placeholder': 'Mot de passe'}), label='Mot de passe')
+    password_confirmation = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'field password_input'}), label='Confirmation du mot de passe')
 
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_confirmation = cleaned_data.get('password_confirmation')
-
         if password != password_confirmation:
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
-
         return cleaned_data
 
     # def save(self, commit=True):

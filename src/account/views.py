@@ -1,18 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model,login,logout,authenticate
 from account.models import UserModel
 from .forms import signupForm,LoginForm,signupFormStep2
-from datetime import datetime
-from django.views.generic import UpdateView
 import requests
 
 User = get_user_model()
-
-def convert_date_format(date_str):
-    date_obj = datetime.strptime(date_str, '%d/%m/%Y')
-    formatted_date = date_obj.strftime('%Y-%m-%d')
-    return formatted_date
 
 def signup_login_view(request):
     message = ''
@@ -70,9 +62,8 @@ def signup_view_2(request):
                         return redirect('home-view')
                 else:
                     error = 'mots de passe différents'
-                    return render(request, 'account/signup_partie2.html', {"error":error})
-            print('form invalide',signup_form_part2.errors)
-            return redirect('signup_step2')
+                    return render(request, 'account/signup_partie2.html', {'form': signup_form_part2,"error":error})
+            return render(request, 'account/signup_partie2.html', {'form': signup_form_part2,"error":error})
         else:
             signup_form_part2 = signupFormStep2()
             return render(request, 'account/signup_partie2.html', {'form': signup_form_part2})
@@ -146,3 +137,8 @@ def updateUser(request):
     # GET
     else:
         return render(request,'account/modifier_user.html', {'user':user,'countries': countries})   
+    
+def logout_user(request):
+    logout(request)
+    return redirect('home-view')
+    

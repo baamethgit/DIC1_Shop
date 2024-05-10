@@ -32,7 +32,7 @@ class UserModel(AbstractBaseUser):
     prenom = models.CharField(max_length=128)
     nom = models.CharField(max_length=128)
     date_naissance = models.DateField(verbose_name='Date de naissance')
-    courriel = models.EmailField(unique = True,max_length = 255)
+    courriel = models.EmailField(unique = True,max_length = 255, error_messages={'unique': "Ce courriel est déjà utilisé."})
     mail_secondaire = models.EmailField(blank=True, null=True,unique = True , verbose_name='Email Secondaire')
     telephone = models.CharField(max_length=128,blank=True, null=True,verbose_name = "Numéro de téléphone")
     adresse = models.CharField(max_length = 250,blank=True, null=True,verbose_name='Adresse')

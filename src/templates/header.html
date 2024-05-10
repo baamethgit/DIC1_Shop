@@ -1,10 +1,10 @@
 {% load static %}
-<section class='header px-md-5 px-0'>
+<section class='header'>
     <div class='row d-flex align-items-center justify-content-between m-0 p-0' style='height: auto;'>
-        <p style='font-size:13px' class='m-0 p-0 bienvenue col-md-5 col-12'>Bienvenue dans la boutique de commerce électronique en ligne DIC1.</p>
-        <div class='d-flex align-items-center justify-content-md-between col-12 m-0 p-0 col-md-6 col-lg-5 ps-lg-5' style='height: auto;'>
-            <p style='font-size:13px' class='me-2 m-0 p-0'>Suivez-nous :</p>
-            <ul class='d-flex align-items-center m-0 p-0'>
+        <p style='font-size:13px' class='w-auto m-0 p-0 bienvenue col-md-5 col-12'>Bienvenue dans la boutique de commerce électronique en ligne DIC1.</p>
+        <div class='w-auto d-flex align-items-center justify-content-md-between col-12 col-md-6 m-0 p-0 col-lg-5 ps-lg-5' style='height: auto;'>
+            <p style='font-size:13px;width:auto;text-overflow: ellipsis;' class='me-2 m-0 p-0 suivez_nous'>Suivez-nous :</p>
+            <ul class='d-flex align-items-center m-0 p-0 media'>
                 <a href='#' style='text-decoration:none;color:white'><i class="fa-brands fa-twitter" style="color: #ffffff;font-size:13px"></i></a>
                 <a href='#' style='text-decoration:none;color:white'><i class="bi bi-facebook" style="font-size:13px"></i></a>
                 <a href='#' style='text-decoration:none;color:white'><i class="fa-brands fa-pinterest-p" style="color: #ffffff;font-size:13px"></i></a>
@@ -12,45 +12,66 @@
                 <a href='#' style='text-decoration:none;color:white'><i class="bi bi-youtube" style="font-size:13px"></i></a>
                 <a href='#' style='text-decoration:none;color:white'><i class="fa-brands fa-instagram" style="color: #ffffff;font-size:13px"></i></a>                
             </ul>
-            <div style='height:100%;width:1px;background-color:gray;' class='ms-3 me-2 p-0 d-none d-md-block'><span style='color:#1b6392'>n</span></div>
-            <select class="form-select langue" aria-label="Default select example" style='width:75px;'>
+            <div style='height:100%;width:1px;background-color:gray;' class='ms-3 me-2 p-0'><span style='color:#1b6392'>n</span></div>
+            <select class="select_langue">
                 <option value="fr" selected>Fra</option>
                 <option value="en">Eng</option>
             </select>
-            <select class="form-select langue" aria-label="Default select example" style='width:80px;'>
+            <select class=" select_a">
                 <option value="usd" selected>USD</option>
-                <option value="veu">VEU</option>
+                <option value="veu">CFA</option>
             </select>
         </div>
     </div>
 </section>
-<div class="hr mt-1 mb-2" style="height: 1px;width:100vw;background-color:gray"></div>
-<section class='header px-5'>
+<div class="hr mt-1 mb-2" style="height: 1px;background-color:gray"></div>
+<section class='header pb-2'>
     <div class='d-flex align-items-center justify-content-between'>
         <li class="d-flex align-items-center align-items-center" >
-            <a href = "{% url 'home-view' %}" style='text-decoration:none;color:white'>
+            <a class='logo' href = "{% url 'home-view' %}" style='text-decoration:none;color:white'>
                 <img class='me-0' src="{% static 'images/logo_shop_1.png' %}" alt="logo" style='width:34px;height:35px;position:relative;left:-10px'>
                 <h6 class="text-light d-inline-block p-0 m-0" style="font-size: 18px !important;"><b>Boutique DIC1</b></h6>
             </a>
         </li>
-        {% comment %} {% block barre_recherche %} {% endcomment %}
-        {% if user.is_authenticated %}
-            <div class="search_bar d-flex align-items-center justify-content-between px-3 py-1">
-                <input type="search" placeholder="Rechercher n'importe quoi...">
-                <span class="" id="search-addon">
-                <i class="fas fa-search"></i>
-                </span>
-        </div>
+        {% if display_search_bar %}
+            <form class='p-0 search_bar' action = '{% url "search-view" %}'>
+                <div class=" d-flex align-items-center justify-content-between px-3 py-1">
+                    <input type="search" placeholder="Rechercher n'importe quoi..." name='query_'>
+                    <button class="bg-transparent border-0" id="search-addon" type='submit'>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         {% endif %}
-        {% comment %} {% endblock  %} {% endcomment %}
         <ul class='d-flex position-relative'>
             <li class='cart me-2'>
                 <a href='{% url "cart-view" %}'><i class="bi bi-cart2" style='font-size:22px;'></i></a>
-                {% comment %} <p><span class='nb_article'>2</span></p> {% endcomment %}
+                {% if user.is_authenticated %}<p><span class='nb_article'>{{ request.user.panier.quantitePanier }}</span></p>{% endif %}
             </li>
-            <li>
-                <a href='{% url "signup-login-view" %}'><i class="bi bi-person" style='font-size:22px;'></i></a>
+            <li class="position-relative profil_utilisateur" style='z-index:50000'>
+                <a {% if not user.is_authenticated %} href='{% url "signup-login-view" %}' {% endif %}>
+                    <i class="bi bi-person" ></i>
+                </a>
+                <div class="popup_user rounded rounded-2 px-2 py-3 position-absolute shadow" style='z-index:500'>
+                        <div class="pp_user text-center m-0 p-0 d-flex justify-content-center"><p class="p-0 m-0"></p></div>
+                        <p class="text-center fw-bold p-0 m-0">{{ user.prenom }} {{ user.nom }} </p>
+                        <a href = "{% url "user_profil_view" %}"><i class="text-center courriel"> {{ user.courriel }} </i></a>
+                        <a class="btn py-0" href = '{% url "logout" %}'>Se déconnecter</a>
+                </div>
             </li>
         </ul>
     </div>
 </section>
+{% if user.is_authenticated %}
+    <script>
+        let popUp = document.querySelector('.popup_user');
+        let a = document.querySelector('.bi-person').closest('a');
+        a.addEventListener('click',(e)=>{
+            if (popUp.style.display == "block") {
+                popUp.style.display = "none";
+            } else {
+                popUp.style.display = "block";
+            }
+        })
+    </script>
+{% endif %}

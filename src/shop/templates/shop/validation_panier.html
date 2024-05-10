@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
+{% block title %}Validation panier{% endblock title %}
+{% block page %} <a href='{% url "cart-view" %}' style='color:black;text-decoration:none'>Panier</a> <span class='txt-dark' style='font-size:20px !important;'>></span> validateur{% endblock %}
 {% block content %}
     <section class="valider_panier mx-auto my-5 d-flex">
         <div style = 'width:35%;' class='mx-auto'>
-            <p class='text-center'><i class="bi bi-check-circle-fill text-success" style='font-size:40px'></i></p>
+            <p class='text-center'>
+                <i style="font-size: 70px; color: rgb(108, 180, 0);" class="bi bi-check2-circle"></i>
+            </p>
             <h5 class='fw-bold;' style='font-weight:bold;text-align:center'><span>votre commande a été validée</span></h5>
             <p class="text-center" style='font-size:14px'>Pellentesque sed lectus nec tortor tristique accumsan quis 
                 dictum risus. Donec volutpat mollis nulla non facilisis.</p>

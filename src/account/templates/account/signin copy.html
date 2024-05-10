@@ -2,23 +2,17 @@
 {% load static %}
 
 {% block title %}
+
+{% endblock  %}
+{% block page %} <a href='{% url "edit-user-view" %}' style='color:inherit;text-decoration:none'>
   {% if default_section == 'login' %}
-  Connexion
-  {% else %}
-  Inscription
+    Connexion
+    {% else %}
+    Inscription
   {% endif %}
-{% endblock  %}
-{% block page %}
-  <a href='{% url "edit-user-view" %}' style='color:inherit;text-decoration:none' class='page_name'>
-    {% if default_section == 'login' %}
-      Connexion
-      {% else %}
-      Inscription
-    {% endif %}
-  </a>
-{% endblock  %}
+</a>{% endblock  %}
 {% block content %}
-      <div class="wrapper my-5 mx-auto px-5 py-3 login_signup">
+      <div class="wrapper my-5 mx-auto px-5 py-3">
          <div class="form-container">
           <span id='myVar' class='d-none'>{{default_section}}</span>
             <div class="slide-controls">
@@ -29,12 +23,13 @@
                <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-               <form action="#" class="login position-relative" method='POST'>
+               <form action="#" class="login" method='POST'>
                 {% csrf_token %}
                 {{login_form.as_div}}
-                <div class="input-group-append border-0 position-absolute">
-                  <button type="button" class="input-group-text border-0 bg-transparent"><i class="bi bi-eye"></i></button>
-                </div>
+                  {% comment %} <div class="pass-link">
+                     <a href="#">Mot de passe oublié</a>
+                  </div> {% endcomment %}
+                  
                   <p class='text-danger'>{{login_message}}</p>
                   <span class="submit_btn w-100">
                     <input type="submit" value="Connexion" class='py-2 fw-bold ' name='login_form'>
@@ -55,18 +50,19 @@
       </div>
       <script type='text/javascript'>
         const defaultSection = document.getElementById("myVar").innerText;
-        const loginRadio = document.getElementById("login");
-        const signupRadio = document.getElementById("signup");
+            console.log(defaultSection)
+            const loginRadio = document.getElementById("login");
+            const signupRadio = document.getElementById("signup");
 
          const loginText = document.querySelector(".title-text .login");
          const loginForm = document.querySelector("form.login");
          const loginBtn = document.querySelector("label.login");
          const signupBtn = document.querySelector("label.signup");
-        const namePage = document.querySelector('.page_name');
+         {% comment %} const signupLink = document.querySelector("form .signup-link a"); {% endcomment %}
+
+
          {% comment %} Les conditions c pour eviter les erreurs sur la console {% endcomment %}
          signupBtn.onclick = (()=>{
-          namePage.innerText = 'Inscription';
-          document.title = 'Inscription';
           if (loginForm){
             loginForm.style.marginLeft = "-50%";
           }
@@ -75,8 +71,6 @@
           }           
          });
          loginBtn.onclick = (()=>{
-          namePage.innerText = 'Connexion';
-          document.title = 'Connexion';
           if (loginForm){
             loginForm.style.marginLeft = "0%";
           } 
@@ -85,22 +79,26 @@
           } 
          });
 
-         {% comment %} eviter de revenir sur la page connexion après des erreurs sur inscription  {% endcomment %}
+
          if (defaultSection === "login") {
           loginBtn.dispatchEvent(new Event('click'));
-
           }
           else {
             signupBtn.dispatchEvent(new Event('click'));
          } 
+         {% comment %} signupLink.onclick = (()=>{
+           signupBtn.click();
+           return false;
+         }); {% endcomment %}
          
       </script>
 <style>
-
     ::selection{
+    {% comment %} background: #fa4299; {% endcomment %}
     color: #fff;
   }
   .wrapper{
+    {% comment %} overflow: hidden; {% endcomment %}
     max-width: 390px;
     background: #fff;
     box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
@@ -196,6 +194,18 @@
   {% comment %} .form-inner form .pass-link{
     margin-top: 5px;
   } {% endcomment %}
-
+  .form-inner form .signup-link{
+    text-align: center;
+    margin-top: 30px;
+  }
+  {% comment %} .form-inner form .pass-link a, {% endcomment %}
+  .form-inner form .signup-link a{
+    color: #fa4299;
+    text-decoration: none;
+  }
+  {% comment %} .form-inner form .pass-link a:hover, {% endcomment %}
+  .form-inner form .signup-link a:hover{
+    text-decoration: underline;
+  }
 </style>
 {% endblock content %}

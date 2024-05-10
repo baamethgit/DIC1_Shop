@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Page not Found{% endblock  %}
+{% block page %} <span class='text-danger'>Page non trouvée </span>{% endblock page %}
+{% block content %}
+    <section class="container mx-auto my-4 p-0 p-md-5 d-flex justify-content-center align-items-center flex-column">
+        <img src="{% static "/images/404.png" %}" alt="" style='max-width:30%;max-height:30%;'>
+        <p class = 'fw-bold text-danger' style='font-size:25px;'>
+            {{ msg_page_not_found }}
+        </p>
+    </section>
+    <h3> {% if erreur %}
+        {{ erreur }}    
+    {% endif %}</h3>
+{% endblock  %}

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}Inscription{% endblock  %}
+{% block page %} <a href='{% url "edit-user-view" %}' style='color:inherit;text-decoration:none'>Inscription</a>{% endblock  %}
 {% block content %}
-      <div class="wrapper my-5 mx-auto px-4 py-3">
+      <div class="wrapper my-5 mx-auto px-4 py-3 signup_part2">
          <div class="form-container">
             <div class="slide-controls">
                <input type="radio" name="slide" id="login" >
@@ -13,33 +15,62 @@
                <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-               <form class="signup" method = 'POST'>
+               <form class="signup position-relative" method = 'POST'>
                 {% csrf_token %}
-                {{form.as_p}}
-                <p class='text-primary d-flex' style='font-size:14px;'>
-                  <input type="checkbox" id="regles_utilisation" name="regles_utilisation">
+                {{ form.as_div }}
+                <p class='d-flex align-items-center' style='font-size:14px;color:#2DA5F3'>
+                  <input type="checkbox" id="regles_utilisation" name="regles_utilisation" required>
                   <label for="regles_utilisation">Êtes-vous d'accord avec les conditions d'utilisation 
-                    et la politique de confidentialité ?.
+                    et la politique de confidentialité?.
                   </label>
                 </p>
-                  <p class='text-danger'>{{signup_message}}</p>
-                  <span class="submit_btn">
-                    <input type="submit" value="Suivant" class='py-2 fw-bold ' name='signup_form'>
+                  <p style='color:red;' id='verification_mdp'></p>
+                  <span class="submit_btn w-100">
+                    <input type="submit" value="S'inscrire" class='py-2 fw-bold ' name='signup_form'>
                     <i class="bi bi-arrow-right" style='cursor:pointer;'></i>
                   </span>
+                  <div class="input-group-append eye1 border-0 position-absolute">
+                    <button type="button" class="input-group-text border-0 bg-transparent"><i class="bi bi-eye"></i></button>
+                  </div>
+                  <div class="input-group-append eye2 border-0 position-absolute">
+                    <button type="button" class="input-group-text border-0 bg-transparent"><i class="bi bi-eye"></i></button>
+                  </div>
                </form>
             </div>
          </div>
       </div>
       <script type='text/javascript'>
+        const p_password = document.getElementById('id_password');
+        const p_erreur = document.getElementById('verification_mdp');
+        p_password.addEventListener('input', ()=>{
+          if (document.querySelector('.errorlist')){
+            document.querySelector('.errorlist').style.display = 'none';
+          }
+            const password = p_password.value;
+            let msg = '';
+            if (password.length < 8) {
+                msg = "Le mot de passe doit contenir au moins 8 caractères";
+            }else if (!/\d/.test(password)) {
+                msg = "Le mot de passe doit contenir au moins un chiffre";
+            }else if (!/[A-Z]/.test(password)) {
+                msg = "Le mot de passe doit contenir au moins une lettre majuscule";
+            }else if (!/[a-z]/.test(password)) {
+                msg = "Le mot de passe doit contenir au moins une lettre minuscule";
+            }
+            if (msg){
+              p_erreur.textContent = msg;
+              p_erreur.style.color = 'red';
+            }else{
+              p_erreur.textContent = 'Votre mot de passe est fort';
+              p_erreur.style.color = 'green';
+            }
+        });
       </script>
 <style>
     ::selection{
-    {% comment %} background: #fa4299; {% endcomment %}
     color: #fff;
   }
   .wrapper{
-    {% comment %} overflow: hidden; {% endcomment %}
     max-width: 390px;
     background: #fff;
     box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
@@ -114,16 +145,23 @@
     width: 50%;
     transition: all 0.6s;
   }
-  .form-inner form .field{
-    height: 50px;
+{% comment %} La classe field est ajouté depuis le formulaire (forms.py) {% endcomment %}
+  .form-inner form .field{ 
+    height: 35px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0px;
+    margin-bottom:5px;
   }
-  .form-inner form .field input{
+  .form-inner form div > input{
     height: 100%;
     width: 100%;
     outline: none;
     padding-left: 15px;
+    margin-top:0px;
+    margin-top:0px;
+  }
+  .form-inner form div > label{
+    margin-bottom:0px;
   }
 
 

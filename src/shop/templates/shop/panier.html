@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
-{% block page %}<span class='text-primary'>panier</span>{% endblock  %}
 
+{% block title %}Panier{% endblock  %}
+{% block page %}panier{% endblock %}
 {% block content %}
-    <div class = 'container panier'>
-    <form action="{% url "valid-panier" %}" method = 'post'>
+    <div class = 'container-fluid container-md panier'>
+        <p class='text-danger text-center my-3'> {{ request.GET.erreur }}</p>
+    <form action="{% url "valid-panier" %}" method = 'POST'>
         {% csrf_token %}
         <div class = 'row my-5 d-flex justify-content-between'>
-            <div class='col-12 mb-3 mb-md-0 col-lg-8 border p-0 border-1 m-0 rounded-1 rounded'>
+            <div class='col-12 mb-3 mb-md-1 col-lg-8 border p-0 border-1 m-0 rounded-1 rounded'>
                 <b class="d-block ps-4 titre">panier</b>
-                    {% comment %} <h5 class='bg-danger'>Votre panier est vide.</h5> {% endcomment %}
                 <table class="w-100" style="table-layout: auto">
                     <thead class="w-100">
                         <tr class="w-100">
@@ -22,44 +23,46 @@
                     <div class="tbody w-100">
                         {% for article in articles %}
                             <tr class="w-100">
-                                <td class="ps-4">
-                                    <span class='supprimer_article'></span>
+                                <td class="ps-4 d-flex align-items-center sup_img_nom">
+                                    <span class='supprimer_article me-2' style='cursor:pointer' title="supprimer l'article" data-article="{{article.id}}"><i class="bi bi-x-circle text-danger"></i></span>
                                     <img {% if article.produit.images.all.0 %} 
                                             src="{{ article.produit.images.all.0.image.url }}" 
                                          {% else %} 
-                                            src="{% static "/images/No_image_available.png" %}" 
-                                        {% endif %} 
+                                            src="{% static "/images/No_image_available.png" %}"
+                                        {% endif %}
                                         alt="" class='product_image'  style="width: 40px;height:40px">
-
-                                    <p class="d-inline-block " style='white-space : wrap;'>{{ article.produit.nom}} </p>
+                                    <p class="d-inline-block pe-2 ms-1" > 
+                                        <a href = '{% url "single-product-view" article.produit.slug %}' style='text-decoration:none;color:inherit'>{{ article.produit.nom}} </a>
+                                    </p>
                                 </td>
-                                <td>
+                                <td style='white-space:nowrap;'>
                                     <span class='prix_article'>{{ article.produit.prix }}</span> $
-                                    {% comment %} <input  class="prix_article" type="text" hidden value = "{{ article.produit.prix }}"> {% endcomment %}
                                 </td>
                                 <td>
                                     <div class="compteur border border-1 py-1 d-flex justify-content-between align-items-center px-2 mx-2" style="font-size: 13px;width:85%">
                                         <i class="bi bi-dash" data-article="{{ article.id }}" style="cursor: pointer;font-size:20px"></i>
-                                        <input type="text" min="01" value='{{ article.quantite }}' class="border-0 text-center" style="width: 60px;height:30px" data-product="{{article.produit.id}}">
+                                        <input type="text" value='{{ article.quantite }}' class="border-0 text-center" style="width: 60px;height:30px" data-produit="{{article.produit.id}}"
+                                                        pattern="0*([1-9][0-9]*|[0-9]+)" title="Veuillez entrer un nombre entier."
+                                                        required >
                                         <i class="bi bi-plus" data-article="{{ article.id }}" style="cursor: pointer;font-size:20px"></i>                    
                                     </div>
                                 </td>
-                                <td class="pe-4">
+                                <td class="pe-4" style='white-space:nowrap;'>
                                     <span class="prix_total_article">{{article.prix_total| floatformat:2}}</span> $
-                                    <!-- <input type="text" hidden class="prix_totale_article" value="{{article.produit.prix}}"> -->
                                 </td>
                             </tr>
                         {% endfor %}
+                        
                     </div>
                 </table>
                 <hr class="w-100">
                 <div class="btns d-flex justify-content-between px-4 mb-4">
                     <span class="submit_panier px-3">
                         <i class="bi bi-arrow-left" style='cursor:pointer;'></i>
-                        <input type="submit" value="MAISON" class='py-2'>
+                        <a type="button" href='{% url "home-view" %}' class='py-2'>ACCEUIL</a>
                     </span>
                     <span class="submit_panier px-3">
-                        <input type="submit" value="VALIDER" class='py-2 fw-bold'>
+                        <input type="submit" value="VALIDER" class='py-2 fw-bold' {% if not panier.articles.exists %}disabled{% endif %}>
                     </span>
                 </div>
             </div>
@@ -68,74 +71,24 @@
                     <b class="d-block titre">Totaux</b>
                     <p class="d-flex justify-content-between">
                         <span style="color:#5F6C72">total</span>
-                        <span class = 'total_panier' style="color:#191C1F">{{panier.montant}}$</span>
+                        <span class = 'total_panier' style="color:#191C1F">{{panier.montant|floatformat:2}}$</span>
                     </p>
                     <p class="d-flex justify-content-between">
                         <span style="color:#5F6C72" >frais</span>
-                        <span class="" style="color:#191C1F" class='frais'>320$</span>
+                        <span class="" style="color:#191C1F" class='frais'>{{panier.frais|floatformat:2}}$</span>
                     </p>
                     <p class="d-flex justify-content-between">
                         <span style="color:#5F6C72">taxes</span>
-                        <span class="" style="color:#191C1F" class='taxes'>320$</span>
+                        <span class="" style="color:#191C1F" class='taxes'>{{panier.taxes|floatformat:2}}$</span>
                     </p>
                     <hr>
                     <p class="d-flex justify-content-between">
                         <span style="color:#191C1F">Total</span>
-                        <span><span class="fw-bold" style="color:#191C1F" class='total_panier_avec_frais'>320</span> $</span>
+                        <span><span class="fw-bold total_panier_avec_frais" style="color:#191C1F">{{panier.montantTotal|floatformat:2}}</span> $</span>
                     </p>
                 </div>
             </div>
         </div>
     </form>
     </div> 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let compteurs = document.querySelectorAll('.compteur');
-            const plusBtns = document.querySelectorAll(".compteur .bi-plus");
-            const minusBtns = document.querySelectorAll(".compteur .bi-dash");
-            const inputCompteur = document.querySelectorAll(".compteur input[type='text']");
-            const PrixTousArticles = document.querySelectorAll(".prix_article");
-            const TableauPrixTotaux = document.querySelectorAll(".prix_total_article");
-        
-            inputCompteur.forEach((input, index) => {
-                input.value = pad(input.value);
-            })
-        plusBtns.forEach((plusBtn, index) => {
-            plusBtn.addEventListener("click", function() {
-                incrementCounter(index);
-                inputCompteur[index].dispatchEvent(new Event('input'));
-            });
-        });
-        
-        minusBtns.forEach((minusBtn, index) => {
-            minusBtn.addEventListener("click", function() {
-                decrementCounter(index);
-                inputCompteur[index].dispatchEvent(new Event('input'));
-            });
-        });
-        
-        function incrementCounter(index) {
-            let value = parseInt(inputCompteur[index].value, 10);
-            if (!isNaN(value)) {
-                value++;
-                inputCompteur[index].value = pad(value);
-            }
-        }
-        
-        function decrementCounter(index) {
-            let value = parseInt(inputCompteur[index].value, 10);
-            if (!isNaN(value) && value > 1) {
-                value--;
-                inputCompteur[index].value = pad(value);
-            }
-        }
-        
-        function pad(number) {
-            if (number < 10) {
-                return '0' + number;
-            }
-            return number;
-        }
-    });
-    </script>
-{% endblock  %}
+ {% endblock  %}

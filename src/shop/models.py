@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
@@ -58,26 +59,30 @@ class Article(models.Model):
     @property
     def prix_total(self):
         total = self.quantite * self.produit.prix
-        return total           
-    # def clean(self):
-    #     super().clean()
-    #     if self.quantite < 1:
-    #         raise ValidationError("La quantité doit être d'au moins 1.")
-    #     produit_stock = self.produit.stock if self.produit else 0
-    #     if self.quantite > produit_stock:
-    #         raise ValidationError("La quantité ne peut pas dépasser le stock disponible.")
+        return total  
+    
+    def clean(self):
+        super().clean()
+        if self.quantite > self.produit.stock:
+            raise ValidationError("La quantité ne peut pas dépasser le stock disponible du produit.")         
+
 class Panier(models.Model):
     # user = models.ForeignKey(unique = True,AUTH_USER_MODEL, on_delete = models.CASCADE)
     # équivalent à 
     user = models.OneToOneField(AUTH_USER_MODEL, on_delete = models.CASCADE)
     articles = models.ManyToManyField(Article,blank=True)
-
-    def get_total_amount(self):
+    taxes = models.FloatField(default=0.0,blank = True)
+    frais = models.FloatField(default=0.0, blank = True)
+    def get_montant(self):
         return sum(article.prix_total for article in self.articles.all())
 
     @property
     def montant(self):
-        return self.get_total_amount()
+        return self.get_montant()
+    
+    @property
+    def montantTotal(self):
+        return self.get_montant() + self.taxes + self.frais
 
     @property 
     def quantitePanier(self):
