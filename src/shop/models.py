@@ -18,6 +18,8 @@ class Categorie(models.Model):
         super().save(*args,**kwargs)
         
 class Produit(models.Model):
+    class Meta:
+        verbose_name = 'Produit'
     nom = models.CharField(max_length = 128)
     description = models.TextField(blank=True)
     marque = models.CharField(max_length=128)
@@ -26,7 +28,7 @@ class Produit(models.Model):
     stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0,validators=[MinValueValidator(0)])
     categorie = models.ForeignKey(Categorie, on_delete = models.SET_NULL, null = True, blank = True)
     slug = models.SlugField(max_length = 128,blank=True,unique=True)
-    star = models.IntegerField(default=0 ,blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
+    star = models.IntegerField(default=0 ,verbose_name = 'notes',blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
     
     def __str__(self):
         return self.nom
@@ -39,8 +41,11 @@ class Produit(models.Model):
         super().save(*args, **kwargs)
         
     def get_absolute_url(self):
-        return reverse("home-view")
+        return reverse('single-product-view', kwargs={'slug': self.slug})
+    
 class ImageProduit(models.Model):
+    class Meta:
+        verbose_name = 'images'
     produit = models.ForeignKey(Produit, related_name='images', on_delete=models.CASCADE)
     nom = models.CharField(max_length = 128)
     image = models.ImageField(upload_to='images_prod')
@@ -48,6 +53,8 @@ class ImageProduit(models.Model):
     def __str__(self):
         return self.nom
 class Article(models.Model):
+    class Meta:
+        verbose_name = 'Article'
     user = models.ForeignKey(AUTH_USER_MODEL,on_delete = models.CASCADE)
     quantite = models.IntegerField(default = 1, verbose_name = "Nombre d'article",validators=[MinValueValidator(1)])
     produit = models.ForeignKey(Produit, on_delete = models.CASCADE) # un produit peut appartenir à +sieurs article
@@ -67,6 +74,8 @@ class Article(models.Model):
             raise ValidationError("La quantité ne peut pas dépasser le stock disponible du produit.")         
 
 class Panier(models.Model):
+    class Meta:
+        verbose_name = 'Panier'
     # user = models.ForeignKey(unique = True,AUTH_USER_MODEL, on_delete = models.CASCADE)
     # équivalent à 
     user = models.OneToOneField(AUTH_USER_MODEL, on_delete = models.CASCADE)

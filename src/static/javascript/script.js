@@ -220,24 +220,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     })
 
-    // Selection des pays et région dynamiquement
-    // document.getElementById('country').addEventListener('change', function() {
-    //     let selectedCountry = this.value;
-    //     fetch('https://restcountries.com/v3.1/region/' + selectedCountry)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             let regionSelect = document.getElementById('id_region');
-    //             regionSelect.innerHTML = '';
-    //             data.forEach(region => {
-    //                 let option = document.createElement('option');
-    //                 option.value = region;
-    //                 option.textContent = region;
-    //                 regionSelect.appendChild(option);
-    //                 console.log(regionSelect)
-    //             });
-    //             console.log(data)
-    //         })
-    //         .catch(error => console.error('Erreur lors de la récupération des régions :', error));
-    // });
+
 
 });

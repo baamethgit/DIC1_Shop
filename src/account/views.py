@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model,login,logout,authenticate
 from account.models import UserModel
 from .forms import signupForm,LoginForm,signupFormStep2
-import requests
 
 User = get_user_model()
 
@@ -74,15 +73,19 @@ def updateUser(request):
     user = request.user
     if not user.is_authenticated:
         return redirect('signup-login-view')
-    countries_response = requests.get("https://restcountries.com/v3.1/all")
-    if countries_response.status_code == 200:
-        countries_data = countries_response.json()
-        countries = [country['name']['common'] for country in countries_data]
-        countries.sort()
-    else:
-        countries = ''
+    
+    # l'api était lent c pourquoi ça change (django-cities aussi n'a pas fonctionné)
+    # countries_response = requests.get("https://restcountries.com/v3.1/all")
+    # if countries_response.status_code == 200:
+    #     countries_data = countries_response.json()
+    #     countries = [country['name']['common'] for country in countries_data]
+    #     countries.sort()
+    # else:
+    #     countries = ''
         
-    context = {'user':user,'countries': countries}
+    countries = ['Senegal',"Cote d'ivoire","Gambie","Guinée","Mali","Mauritanie","Maroc"]
+    regions = ['Dakar','Abidjan','Banjul','Nouakchott','Conakry','Louga','Thies']
+    context = {'user':user,'countries': countries,'regions':regions}
     if request.method == 'POST':
         if 'param_compte' in request.POST:
             erreur = ''
@@ -136,9 +139,10 @@ def updateUser(request):
             return render(request,'account/modifier_user.html',context) 
     # GET
     else:
-        return render(request,'account/modifier_user.html', {'user':user,'countries': countries})   
+        return render(request,'account/modifier_user.html', {'user':user,'countries': countries,'regions':regions})   
     
 def logout_user(request):
     logout(request)
     return redirect('home-view')
+    
     

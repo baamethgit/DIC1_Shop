@@ -29,6 +29,8 @@ class UserManager(BaseUserManager):
     
 # Modele utilisateur
 class UserModel(AbstractBaseUser):
+    class Meta:
+        verbose_name = 'Utilisateur'
     prenom = models.CharField(max_length=128)
     nom = models.CharField(max_length=128)
     date_naissance = models.DateField(verbose_name='Date de naissance')

@@ -19,10 +19,12 @@ from django.urls import path,include
 from django.conf.urls.static import static
 from shop.views import listProduit
 from .settings import MEDIA_ROOT,MEDIA_URL
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('',listProduit,name = 'home-view'),
     path("account/",include("account.urls")),
     path('shop/',include('shop.urls')),
+    path('<str:blabla>/',TemplateView.as_view(template_name= '404.html'))
 ] + static(MEDIA_URL,document_root = MEDIA_ROOT)

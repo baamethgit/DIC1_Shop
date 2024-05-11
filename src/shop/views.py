@@ -35,8 +35,6 @@ def detailProduit(request,slug):
         if article.quantite > produit.stock:
             erreur = f'La quantité ne peut pas dépasser le stock disponible({produit.stock}).'
             return render(request,'shop/detail_produit.html', {'produit':produit,'erreur':erreur})
-        produit.stock -= int(quantite)
-        produit.save()
         article.save()
         panier.articles.add(article)
         panier.save()
@@ -108,6 +106,9 @@ def validerPanier(request):
                     erreur = f"La quantité de {article.produit.nom} dépasse le stock disponible ({article.produit.stock})."
                     url = reverse('cart-view') + f'?erreur={erreur}'
                     return redirect(url)
+            for article in panier.articles.all():
+                article.produit.stock -= int(article.quantite)
+                article.produit.save()
             return render(request,'shop/validation_panier.html')
         else:
             return render(request,'shop/panier.html' ,{'panier':panier,"erreur":'Votre panier est Vide .'})

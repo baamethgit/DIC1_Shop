@@ -31,7 +31,6 @@
                     </p>
                     <p class="col-4">
                         <label for="">Pays</label><br>
-                        {% if countries %}
                             <select class = "w-100 px-2 py-1 border" id="country" name="pays" >
                                 {% if not user.pays %}
                                 <option value="">Sélectionnez un pays</option>
@@ -40,16 +39,17 @@
                                     <option value="{{ country }}">{{ country }}</option>
                                 {% endfor %}
                             </select>
-                        {% else %}
-                        <input class="px-2 py-1 border w-100" type="text" name="pays"    {% if user.telephone %} value="{{user.telephone }}" {% endif %}>    
-                        {% endif %}
                     </p>
                     <p class="col-4">
                         <label for="">Région</label><br>
                         <select class = "w-100 px-2 py-1 border" id="id_region" name="region">
-                            <!-- Les options des régions seront ajoutées dynamiquement ici -->
+                            {% if not user.region %}
+                            <option value="">Sélectionnez une Région</option>
+                            {%endif%}
+                            {% for country in regions %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                               {% endfor %}
                         </select>
-                        {% comment %} <input class="px-2 py-1 border w-100" type="text" name="region"    {% if user.telephone %} value="{{user.telephone }}" {% endif %}>     {% endcomment %}
                     </p>
                     <p class="col-4">
                         <label for="">Code postal</label><br>

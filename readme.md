@@ -14,7 +14,7 @@ Ce projet, réalisé avec Django, est une boutique en ligne nommée DIC1Shop.
 - Connexion internet : Bootstrap est utilisé pour les icônes et une partie de la mise en forme, donc une connexion internet est nécessaire.
 
 ## Exécuter le projet:
-1. Compiler le fichier SCSS en CSS. Cela peut être fait automatiquement en utilisant l'extension VS Code "Live Sass Compiler".
+1. Compiler le fichier SCSS en CSS  `sass style.scss style.css`. Cela peut être fait automatiquement en utilisant l'extension VS Code "Live Sass Compiler".
 2. Dans le dossier du projet, naviguez jusqu'au dossier `src` et exécutez la commande : `python manage.py runserver`.
 
 ## Utilisation :
