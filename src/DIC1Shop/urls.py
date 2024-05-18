@@ -26,5 +26,6 @@ urlpatterns = [
     path('',listProduit,name = 'home-view'),
     path("account/",include("account.urls")),
     path('shop/',include('shop.urls')),
+    path('api/',include('api.urls')),
     path('<str:blabla>/',TemplateView.as_view(template_name= '404.html'))
 ] + static(MEDIA_URL,document_root = MEDIA_ROOT)

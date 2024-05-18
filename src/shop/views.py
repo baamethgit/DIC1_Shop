@@ -3,12 +3,19 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .models import Produit,Categorie,Panier,Article
 from django.http import JsonResponse
-
+from django.views.generic import ListView
 
 def listProduit(request):
     produits = Produit.objects.all()
     categories = Categorie.objects.all()
     return render(request,'shop/liste_produits.html', {'produits':produits,'categories':categories,'display_search_bar':3})
+
+# class listProduit(ListView):
+#     model = Produit
+#     context_object_name = "produits"  # Le nom de l'objet de contexte
+#     template_name = "shop/liste_produits.html"  # Le nom du template
+#     paginate_by = 2  # Nombre d'éléments par page
+
 
 def detailProduit(request,slug):
     if request.method == 'POST':    
