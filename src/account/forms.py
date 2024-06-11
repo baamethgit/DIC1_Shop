@@ -38,24 +38,6 @@ class signupFormStep2(forms.Form):
         if password != password_confirmation:
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
         return cleaned_data
-
-    # def save(self, commit=True):
-    #     user = super().save(commit=False)
-    #     user.set_password(self.cleaned_data['password'])
-    #     if commit:
-    #         user.save()
-    #     return user
-
-# class signupFormStep2(forms.ModelForm):
-#     class Meta:
-#         model = UserModel
-#         fields = ('password')
-#         widgets = {
-#             'prenom': forms.TextInput(attrs={'class': 'field'}),
-#             'nom': forms.TextInput(attrs={'class': 'field'}),
-#             'courriel': forms.TextInput(attrs={'class': 'field'}),
-#             'date_naissance': forms.TextInput(attrs={'class': 'field', 'placeholder': 'JJ/MM/AAAA'})
-#         }
     
 class updateForm(ModelForm):
     class Meta:

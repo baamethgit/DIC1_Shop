@@ -7,8 +7,7 @@ from DIC1Shop.settings import AUTH_USER_MODEL
 import uuid
 class Categorie(models.Model):
     nom = models.CharField(max_length=100)
-    slug = models.SlugField(max_length = 128,blank = True)
-    
+    slug = models.SlugField(max_length = 128,blank = True)   
     def __str__(self):
         return self.nom
     
@@ -28,7 +27,7 @@ class Produit(models.Model):
     stock = models.IntegerField(verbose_name = 'Quantité disponible', default = 0,validators=[MinValueValidator(0)])
     categorie = models.ForeignKey(Categorie, on_delete = models.SET_NULL, null = True, blank = True)
     slug = models.SlugField(max_length = 128,blank=True,unique=True)
-    star = models.IntegerField(default=0 ,verbose_name = 'notes',blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
+    star = models.IntegerField(default=0 ,verbose_name = 'notes',blank=True,validators=[MinValueValidator(0), MaxValueValidator(5)])
     
     def __str__(self):
         return self.nom

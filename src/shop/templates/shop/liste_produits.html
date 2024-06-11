@@ -1,74 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Accueil{% endblock  %}
-{% block iconeSup %}{% endblock  %}
+{% block title %}Accueil{% endblock %}
+{% block iconeSup %}{% endblock %}
 {% block content %}
 <div class="w-100 my-4">
   <div class="row pe-0 w-100">
     <div class="col-12 col-md-3 liste_categories">
       <p class="d-none d-md-block" style='color:#191C1F;font-size:16px;font-weight:500'>CATÉGORIE DE PRODUITS</p>
       <div class=''>
-      <a href="{% url 'home-view' %}" class='liste_cat'>
-        <label for="toutes" class='d-flex align-items-center' for="toutes">
-          <input type="radio" name="category" value="Toutes" id="Toutes" checked>
-          <span>Tous les produits</span>
-        </label>
-      </a>
-      {% for cat in categories %}
-      <a href="{% url 'categorie-view' cat.slug %}" class="liste_cat">
-        <label class='d-flex align-items-center' for="{{ cat.slug }}">
-          <input type="radio" name="category" value="{{ cat.slug }}" id="{{ cat.slug }}" {% if cat.slug == checked_btn %}checked{% endif %}>
-          <span >{{ cat.nom }}</span>
-        </label>
-      </a>
-      {% endfor %}   
-      <select class ="d-none w-75 px-2 py-1 border border-3 m-4" id="categorie" name="categorie" >
+        <a href="{% url 'home-view' %}" class='liste_cat'>
+          <label for="toutes" class='d-flex align-items-center' for="toutes">
+            <input type="radio" name="category" value="Toutes" id="Toutes" checked>
+            <span>Tous les produits</span>
+          </label>
+        </a>
+        {% for cat in categories %}
+        <a href="{% url 'categorie-view' cat.slug %}" class="liste_cat">
+          <label class='d-flex align-items-center' for="{{ cat.slug }}">
+            <input type="radio" name="category" value="{{ cat.slug }}" id="{{ cat.slug }}" {% if cat.slug == checked_btn%}checked{% endif %}>
+            <span>{{ cat.nom }}</span>
+          </label>
+        </a>
+        {% endfor %}
+        <select class="d-none w-75 px-2 py-1 border border-3 m-4" id="categorie" name="categorie">
           <option value=""><a href="{% url 'home-view' %}">Toutes les catégories</a></option>
           {% for cat in categories %}
-              <option value="{{ cat.slug }}" {% if cat.slug == checked_btn %}selected{% endif %}>
-                <a href="{% url 'categorie-view' cat.slug %}">{{ cat.nom }}</a>
-              </option>
+          <option value="{{ cat.slug }}" {% if cat.slug == checked_btn %}selected{% endif %}>
+            <a href="{% url 'categorie-view' cat.slug %}">{{ cat.nom }}</a>
+          </option>
           {% endfor %}
-      </select>
+        </select>
       </div>
     </div>
     <div class="col-12 col-md-9 liste_produits">
       <div class="row mx-auto">
         {% if search_failed %}
-          <h3 class='text-danger text-center'>Aucun produit ne correspond à cette recherche</h3>
+        <h3 class='text-danger text-center'>Aucun produit ne correspond à cette recherche</h3>
         {% endif %}
-      {% for produit in produits %}
+        {% for produit in produits %}
         <div class="col-12 col-md-4  col-xl-3 pe-3 ps-0 mb-3 ">
           <a href="{% url 'single-product-view' produit.slug %}" class="border h-100 w-100 px-2 py-0 my-0">
             <div class="d-flex h-100 flex-column justify-content-between pb-1">
               <div class='image_produit text-center'>
-                  <img {% if produit.images.all.0 %} 
-                          src="{{ produit.images.all.0.image.url }}" 
-                      {% else %} 
-                          src="{% static '/images/No_image_available.png' %}" 
-                      {% endif %} 
-                  alt="pas d'image" class='m-2 mx-auto'>
+                <img {% if produit.images.all.0 %} src="{{ produit.images.all.0.image.url }}" {% else %}
+                  src="{% static '/images/No_image_available.png' %}" {% endif %} alt="pas d'image" class='m-2 mx-auto'>
               </div>
               <div class="mb-0">
-                    <div class="d-flex stars" style="font-size: 12px;">
-                      {% for i in 1|ljust:5 %}
-                        {% if forloop.counter <= produit.star %}
-                          <i class="bi bi-star-fill me-1" style='color:orange'></i>
-                        {% else %}
-                          <i class="bi bi-star me-1"></i>
-                        {% endif %}
-                     {% endfor %}
-                    </div>
-                    <p class="m-0" style="font-size: 13px;">{{produit.nom}}</p>
-                    <p class="m-0" style='color:#2DA5F3'>{{produit.prix}} $</p>
+                <div class="d-flex stars" style="font-size: 12px;">
+                  {% for i in 1|ljust:5 %}
+                  {% if forloop.counter <= produit.star %} <i class="bi bi-star-fill me-1" style='color:orange'></i>
+                    {% else %}
+                    <i class="bi bi-star me-1"></i>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="m-0" style="font-size: 13px;">{{produit.nom}}</p>
+                <p class="m-0" style='color:#2DA5F3'>{{produit.prix}} $</p>
               </div>
             </div>
-          </a>        
+          </a>
         </div>
-    {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 </div>
-</div>
-{% endblock  %}
+{% endblock %}
